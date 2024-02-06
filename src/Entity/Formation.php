@@ -18,16 +18,9 @@ class Formation
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[ORM\OneToMany(targetEntity: Apprenant::class, mappedBy: 'formation')]
-    private Collection $apprenants;
+    #[ORM\OneToMany(targetEntity: Utilisateur::class, mappedBy: 'formation_suivie')]
+    private Collection $utilisateurs;
 
-    #[ORM\ManyToOne(inversedBy: 'formation')]
-    private ?Contenir $contenir = null;
-
-    public function __construct()
-    {
-        $this->apprenants = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -45,45 +38,33 @@ class Formation
 
         return $this;
     }
-
+    
     /**
-     * @return Collection<int, Apprenant>
+     * @return Collection<int, Utilisateur>
      */
-    public function getApprenants(): Collection
+    public function getUtilisateurs(): Collection
     {
-        return $this->apprenants;
+        return $this->utilisateurs;
     }
 
-    public function addApprenant(Apprenant $apprenant): static
+    public function addUtilisateur(Utilisateur $utilisateur): static
     {
-        if (!$this->apprenants->contains($apprenant)) {
-            $this->apprenants->add($apprenant);
-            $apprenant->setFormation($this);
+        if (!$this->utilisateurs->contains($utilisateur)) {
+            $this->utilisateurs->add($utilisateur);
+            $utilisateur->setFormationSuivie($this);
         }
 
         return $this;
     }
 
-    public function removeApprenant(Apprenant $apprenant): static
+    public function removeUtilisateur(Utilisateur $utilisateur): static
     {
-        if ($this->apprenants->removeElement($apprenant)) {
+        if ($this->utilisateurs->removeElement($utilisateur)) {
             // set the owning side to null (unless already changed)
-            if ($apprenant->getFormation() === $this) {
-                $apprenant->setFormation(null);
+            if ($utilisateur->getFormationSuivie() === $this) {
+                $utilisateur->setFormationSuivie(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getContenir(): ?Contenir
-    {
-        return $this->contenir;
-    }
-
-    public function setContenir(?Contenir $contenir): static
-    {
-        $this->contenir = $contenir;
 
         return $this;
     }

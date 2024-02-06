@@ -14,16 +14,14 @@ class Note
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 4, scale: 2)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 4, scale: 2, nullable: true)]
     private ?string $note = null;
 
     #[ORM\ManyToOne(inversedBy: 'notes')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Matiere $matiere = null;
+    private ?Utilisateur $apprenant = null;
 
     #[ORM\ManyToOne(inversedBy: 'notes')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Apprenant $apprenant = null;
+    private ?Matiere $matière = null;
 
     public function getId(): ?int
     {
@@ -35,33 +33,33 @@ class Note
         return $this->note;
     }
 
-    public function setNote(string $note): static
+    public function setNote(?string $note): static
     {
         $this->note = $note;
 
         return $this;
     }
 
-    public function getMatiere(): ?Matiere
-    {
-        return $this->matiere;
-    }
-
-    public function setMatiere(?Matiere $matiere): static
-    {
-        $this->matiere = $matiere;
-
-        return $this;
-    }
-
-    public function getApprenant(): ?Apprenant
+    public function getApprenant(): ?Utilisateur
     {
         return $this->apprenant;
     }
 
-    public function setApprenant(?Apprenant $apprenant): static
+    public function setApprenant(?Utilisateur $apprenant): static
     {
         $this->apprenant = $apprenant;
+
+        return $this;
+    }
+
+    public function getMatière(): ?Matiere
+    {
+        return $this->matière;
+    }
+
+    public function setMatière(?Matiere $matière): static
+    {
+        $this->matière = $matière;
 
         return $this;
     }

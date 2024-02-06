@@ -22,19 +22,11 @@ class Matiere
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $programme = null;
 
-    #[ORM\ManyToOne(inversedBy: 'matieres')]
-    private ?Formateur $formateur = null;
+    #[ORM\ManyToOne(inversedBy: 'matieres_enseignees')]
+    private ?Utilisateur $formateur = null;
 
-    #[ORM\OneToMany(targetEntity: Note::class, mappedBy: 'matiere', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Note::class, mappedBy: 'matière')]
     private Collection $notes;
-
-    #[ORM\ManyToOne(inversedBy: 'matiere')]
-    private ?Contenir $contenir = null;
-
-    public function __construct()
-    {
-        $this->notes = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -65,12 +57,12 @@ class Matiere
         return $this;
     }
 
-    public function getFormateur(): ?Formateur
+    public function getFormateur(): ?Utilisateur
     {
         return $this->formateur;
     }
 
-    public function setFormateur(?Formateur $formateur): static
+    public function setFormateur(?Utilisateur $formateur): static
     {
         $this->formateur = $formateur;
 
@@ -89,7 +81,7 @@ class Matiere
     {
         if (!$this->notes->contains($note)) {
             $this->notes->add($note);
-            $note->setMatiere($this);
+            $note->setMatière($this);
         }
 
         return $this;
@@ -99,22 +91,10 @@ class Matiere
     {
         if ($this->notes->removeElement($note)) {
             // set the owning side to null (unless already changed)
-            if ($note->getMatiere() === $this) {
-                $note->setMatiere(null);
+            if ($note->getMatière() === $this) {
+                $note->setMatière(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getContenir(): ?Contenir
-    {
-        return $this->contenir;
-    }
-
-    public function setContenir(?Contenir $contenir): static
-    {
-        $this->contenir = $contenir;
 
         return $this;
     }
