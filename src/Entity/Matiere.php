@@ -28,6 +28,16 @@ class Matiere
     #[ORM\OneToMany(targetEntity: Note::class, mappedBy: 'matière')]
     private Collection $notes;
 
+    #[ORM\ManyToMany(targetEntity: Formation::class, inversedBy: 'matieres')]
+    private Collection $formation;
+
+    public function __construct()
+    {
+        $this->formation = new ArrayCollection();
+    }
+
+    
+
     public function getId(): ?int
     {
         return $this->id;
@@ -95,6 +105,30 @@ class Matiere
                 $note->setMatière(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Formation>
+     */
+    public function getFormation(): Collection
+    {
+        return $this->formation;
+    }
+
+    public function addFormation(Formation $formation): static
+    {
+        if (!$this->formation->contains($formation)) {
+            $this->formation->add($formation);
+        }
+
+        return $this;
+    }
+
+    public function removeFormation(Formation $formation): static
+    {
+        $this->formation->removeElement($formation);
 
         return $this;
     }

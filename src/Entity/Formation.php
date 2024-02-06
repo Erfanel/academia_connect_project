@@ -21,6 +21,14 @@ class Formation
     #[ORM\OneToMany(targetEntity: Utilisateur::class, mappedBy: 'formation_suivie')]
     private Collection $utilisateurs;
 
+    #[ORM\ManyToMany(targetEntity: Matiere::class, mappedBy: 'formation')]
+    private Collection $matieres;
+
+    public function __construct()
+    {
+        $this->matieres = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -68,4 +76,32 @@ class Formation
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Matiere>
+     */
+    public function getMatieres(): Collection
+    {
+        return $this->matieres;
+    }
+
+    public function addMatiere(Matiere $matiere): static
+    {
+        if (!$this->matieres->contains($matiere)) {
+            $this->matieres->add($matiere);
+            $matiere->addFormation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMatiere(Matiere $matiere): static
+    {
+        if ($this->matieres->removeElement($matiere)) {
+            $matiere->removeFormation($this);
+        }
+
+        return $this;
+    }
+    
 }
