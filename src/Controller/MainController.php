@@ -18,24 +18,36 @@ class MainController extends AbstractController
         return $this->redirectToRoute('app_login');
     }
 
-    // #[IsGranted("ROLE_FORMATEUR")]
+    #[IsGranted("ROLE_FORMATEUR")]
     #[Route('/homeFormateur', name: 'homeFormateur')]
     public function homeFormateur(): Response
     {
-        return $this->render('main/homeFormateur.html.twig');
+        $user = $this->getUser();
+        $matieres = $user->getMatiereEnseignee();
+        foreach ($matieres as $matiere) {
+            $formations = $matiere->getFormation();
+        } 
+
+
+
+        return $this->render('main/homeFormateur.html.twig', [
+            'matieres' => $matieres,
+            'formations' => $formations
+        ]);
     }
 
-    // #[IsGranted("ROLE_TUTEUR")]
+    #[IsGranted("ROLE_TUTEUR")]
     #[Route('/homeTuteur', name: 'homeTuteur')]
     public function homeTuteur(): Response
     {
         return $this->render('main/homeTuteur.html.twig');
     }
 
-    // #[IsGranted("ROLE_APPRENANT")]
+    #[IsGranted("ROLE_APPRENANT")]
     #[Route('/homeApprenant', name: 'homeApprenant')]
     public function homeApprenant(): Response
     {
+    
         return $this->render('main/homeApprenant.html.twig');
     }
 
@@ -51,6 +63,6 @@ class MainController extends AbstractController
         if( $this->isGranted('ROLE_APPRENANT') ){
             return $this->redirectToRoute('homeApprenant');
         }
-        return $this->redirectToRoute('homeAll');
+        return $this->redirectToRoute('error');
     }
 }
