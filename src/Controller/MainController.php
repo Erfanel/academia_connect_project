@@ -19,8 +19,8 @@ class MainController extends AbstractController
     }
 
     #[IsGranted("ROLE_FORMATEUR")]
-    #[Route('/homeFormateur', name: 'homeFormateur')]
-    public function homeFormateur(): Response
+    #[Route('/Formateur', name: 'formateurHome')]
+    public function FormateurHome(): Response
     {
         //Recupérer les matieres du formateur
         $user = $this->getUser();
@@ -30,7 +30,26 @@ class MainController extends AbstractController
             $formations = $matiere->getFormation();
         }
 
-        return $this->render('main/homeFormateur.html.twig', [
+        return $this->render('main/formateur/formateurHome.html.twig', [
+            'matieres' => $matieres,
+            'formations' => $formations
+        ]);
+    }
+
+    #[IsGranted("ROLE_FORMATEUR")]
+    #[Route('/Formateur/{formationId}/', name: 'formateurMatieres')]
+    public function FormateurMatieres(): Response
+    {
+         //Recupérer les matieres du formateur
+         $user = $this->getUser();
+         $matieres = $user->getMatiereEnseignee();
+         // Récupérer les formations de chaque matiere
+         foreach ($matieres as $matiere) {
+             $formations = $matiere->getFormation();
+         }
+        
+
+        return $this->render('main/formateur/formateurMatieres.html.twig', [
             'matieres' => $matieres,
             'formations' => $formations
         ]);
@@ -75,7 +94,7 @@ class MainController extends AbstractController
     public function homeAll(): Response
     {
         if ($this->isGranted('ROLE_FORMATEUR')) {
-            return $this->redirectToRoute('homeFormateur');
+            return $this->redirectToRoute('formateurHome');
         }
         if ($this->isGranted('ROLE_TUTEUR')) {
             return $this->redirectToRoute('homeTuteur');
