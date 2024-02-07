@@ -18,17 +18,17 @@ class Formation
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[ORM\OneToMany(targetEntity: Utilisateur::class, mappedBy: 'formation_suivie')]
-    private Collection $utilisateurs;
+    #[ORM\OneToMany(targetEntity: Utilisateur::class, mappedBy: 'formationSuivie')]
+    private Collection $apprenants;
 
     #[ORM\ManyToMany(targetEntity: Matiere::class, mappedBy: 'formation')]
     private Collection $matieres;
 
     public function __construct()
     {
+        $this->apprenants = new ArrayCollection();
         $this->matieres = new ArrayCollection();
     }
-
 
     public function getId(): ?int
     {
@@ -46,31 +46,31 @@ class Formation
 
         return $this;
     }
-    
+
     /**
      * @return Collection<int, Utilisateur>
      */
-    public function getUtilisateurs(): Collection
+    public function getApprenants(): Collection
     {
-        return $this->utilisateurs;
+        return $this->apprenants;
     }
 
-    public function addUtilisateur(Utilisateur $utilisateur): static
+    public function addApprenant(Utilisateur $apprenant): static
     {
-        if (!$this->utilisateurs->contains($utilisateur)) {
-            $this->utilisateurs->add($utilisateur);
-            $utilisateur->setFormationSuivie($this);
+        if (!$this->apprenants->contains($apprenant)) {
+            $this->apprenants->add($apprenant);
+            $apprenant->setFormationSuivie($this);
         }
 
         return $this;
     }
 
-    public function removeUtilisateur(Utilisateur $utilisateur): static
+    public function removeApprenant(Utilisateur $apprenant): static
     {
-        if ($this->utilisateurs->removeElement($utilisateur)) {
+        if ($this->apprenants->removeElement($apprenant)) {
             // set the owning side to null (unless already changed)
-            if ($utilisateur->getFormationSuivie() === $this) {
-                $utilisateur->setFormationSuivie(null);
+            if ($apprenant->getFormationSuivie() === $this) {
+                $apprenant->setFormationSuivie(null);
             }
         }
 
@@ -103,5 +103,8 @@ class Formation
 
         return $this;
     }
+
     
+
+
 }

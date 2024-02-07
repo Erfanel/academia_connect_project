@@ -22,10 +22,10 @@ class Matiere
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $programme = null;
 
-    #[ORM\ManyToOne(inversedBy: 'matieres_enseignees')]
+    #[ORM\ManyToOne(inversedBy: 'matiereEnseignee')]
     private ?Utilisateur $formateur = null;
 
-    #[ORM\OneToMany(targetEntity: Note::class, mappedBy: 'matière')]
+    #[ORM\OneToMany(targetEntity: Note::class, mappedBy: 'matiere')]
     private Collection $notes;
 
     #[ORM\ManyToMany(targetEntity: Formation::class, inversedBy: 'matieres')]
@@ -33,10 +33,9 @@ class Matiere
 
     public function __construct()
     {
+        $this->notes = new ArrayCollection();
         $this->formation = new ArrayCollection();
     }
-
-    
 
     public function getId(): ?int
     {
@@ -91,7 +90,7 @@ class Matiere
     {
         if (!$this->notes->contains($note)) {
             $this->notes->add($note);
-            $note->setMatière($this);
+            $note->setMatiere($this);
         }
 
         return $this;
@@ -101,8 +100,8 @@ class Matiere
     {
         if ($this->notes->removeElement($note)) {
             // set the owning side to null (unless already changed)
-            if ($note->getMatière() === $this) {
-                $note->setMatière(null);
+            if ($note->getMatiere() === $this) {
+                $note->setMatiere(null);
             }
         }
 
