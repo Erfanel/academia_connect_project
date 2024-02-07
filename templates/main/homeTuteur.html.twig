@@ -4,4 +4,26 @@
 
 {% block body %}
     <h1>Accueil Tuteur</h1>
+    <ul>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <li>Email: {{ app.user.email }}</li>
+        <li>Nom: {{ app.user.nom }}</li>
+        <li> Prenom: {{ app.user.prenom }}</li>
+    {% endif %}
+    </ul>
+    <h2>Apprenants</h2>
+    <ul>
+    {% for apprenant in apprenants %}
+        <li>{{ apprenant.nom }} {{ apprenant.prenom }}</li>
+    {% endfor %}
+    </ul>
+    <h2>Formation</h2>
+    <p>{{ formation.nom }}</p>
+
+    <h2>Matieres</h2>
+    <ul>
+    {% for matiere in matieres %}
+        <li>{{ matiere.nom }}</li>
+    {% endfor %}
+    </ul>
 {% endblock %}

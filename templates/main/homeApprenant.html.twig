@@ -4,4 +4,18 @@
 
 {% block body %}
     <h1>Accueil Apprenant</h1>
+    <ul>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <li>Email: {{ app.user.email }}</li>
+        <li>Nom: {{ app.user.nom }}</li>
+        <li> Prenom: {{ app.user.prenom }}</li>
+    {% endif %}
+    <h2>Formation: {{ formation.nom }}</h2>
+    <h2>Matières</h2>
+    <ul>
+    {% for matiere in matieres %}
+        <li>{{ matiere.nom }}</li>
+    {% endfor %}
+    </ul>
 {% endblock %}
+
