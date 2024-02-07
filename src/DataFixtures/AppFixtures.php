@@ -106,12 +106,12 @@ class AppFixtures extends Fixture
         //Donner les formations aux apprenants
         $utilisateurGrancher->setFormationSuivie($formationDisii);
         $utilisateurDelafenestre->setFormationSuivie($formationDisii);
-        $utilisateurDelafenestre->setFormationSuivie($formationTssr);
+        $utilisateurBordin->setFormationSuivie($formationTssr);
 
         //Donner les tuteurs aux apprenants
         $utilisateurGrancher->setTuteurAssigne($utilisateurBetty);
         $utilisateurDelafenestre->setTuteurAssigne($utilisateurBetty);
-        $utilisateurDelafenestre->setTuteurAssigne($utilisateurSandrine);
+        $utilisateurBordin->setTuteurAssigne($utilisateurSandrine);
 
         //Donner des formateurs aux matieres
         $matiereSymfony->setFormateur($utilisateurThiery);
