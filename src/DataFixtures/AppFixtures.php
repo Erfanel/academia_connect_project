@@ -7,9 +7,16 @@ use App\Entity\Formation;
 use App\Entity\Utilisateur;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
+    private $passwordHasher;
+
+    public function __construct(UserPasswordHasherInterface $passwordHasher)
+    {
+        $this->passwordHasher = $passwordHasher;
+    }
     public function load(ObjectManager $manager): void
     {
         //FORMATEUR
@@ -17,7 +24,8 @@ class AppFixtures extends Fixture
         $utilisateurThiery->setNom('Thiery');
         $utilisateurThiery->setPrenom('Guillaume');
         $utilisateurThiery->setEmail('guillaume.thiery@example.com');
-        $utilisateurThiery->setPassword('guillaumeThiery');
+        $utilisateurThieryHash = $this->passwordHasher->hashPassword($utilisateurThiery, 'guillaumeThiery');
+        $utilisateurThiery->setPassword($utilisateurThieryHash);
         $utilisateurThiery->setRoles(['ROLE_FORMATEUR']);
 
 
@@ -27,14 +35,16 @@ class AppFixtures extends Fixture
         $utilisateurChereault->setNom('Chereault');
         $utilisateurChereault->setPrenom('Damien');
         $utilisateurChereault->setEmail( 'damien.chereault@example.com');
-        $utilisateurChereault->setPassword('damienChereault');
+        $utilisateurChereaultHash = $this->passwordHasher->hashPassword($utilisateurChereault, 'damienChereault');
+        $utilisateurChereault->setPassword($utilisateurChereaultHash);
         $utilisateurChereault->setRoles(['ROLE_FORMATEUR']);
         
         $utilisateurDelaune = new Utilisateur();
         $utilisateurDelaune->setNom('Delaune');
         $utilisateurDelaune->setPrenom('Oceane');
         $utilisateurDelaune->setEmail('oceane.delaune@example.com');
-        $utilisateurDelaune->setPassword('oceaneDelaune');
+        $utilisateurDelauneHash = $this->passwordHasher->hashPassword($utilisateurDelaune, 'oceaneDelaune');
+        $utilisateurDelaune->setPassword($utilisateurDelauneHash);
         $utilisateurDelaune->setRoles(['ROLE_FORMATEUR']);
 
 
@@ -43,21 +53,24 @@ class AppFixtures extends Fixture
         $utilisateurGrancher->setNom('Grancher');
         $utilisateurGrancher->setPrenom('Loic');
         $utilisateurGrancher->setEmail('loic.grancher@example.com');
-        $utilisateurGrancher->setPassword('loicGrancher');
+        $utilisateurGrancherHash = $this->passwordHasher->hashPassword($utilisateurGrancher, 'loicGrancher');
+        $utilisateurGrancher->setPassword($utilisateurGrancherHash);
         $utilisateurGrancher->setRoles(['ROLE_APPRENANT']);
       
         $utilisateurDelafenestre = new Utilisateur();
         $utilisateurDelafenestre->setNom("Delafenestre");
         $utilisateurDelafenestre->setPrenom('Alexis');
         $utilisateurDelafenestre->setEmail('alexis.delafenestre@example.com');
-        $utilisateurDelafenestre->setPassword('alexisDelafenestre');
+        $utilisateurDelafenestreHash = $this->passwordHasher->hashPassword($utilisateurDelafenestre, 'alexisDelafenestre');
+        $utilisateurDelafenestre->setPassword($utilisateurDelafenestreHash);
         $utilisateurDelafenestre->setRoles(['ROLE_APPRENANT']);
       
         $utilisateurBordin = new Utilisateur();
         $utilisateurBordin->setNom("Bordin");
         $utilisateurBordin->setPrenom('Yohann');
         $utilisateurBordin->setEmail('yohann.bordin@example.com');
-        $utilisateurBordin->setPassword('yohannBordin');
+        $utilisateurBordinHash = $this->passwordHasher->hashPassword($utilisateurBordin, 'yohannBordin');
+        $utilisateurBordin->setPassword($utilisateurBordinHash);
         $utilisateurBordin->setRoles(['ROLE_APPRENANT']);
       
 
@@ -66,7 +79,8 @@ class AppFixtures extends Fixture
         $utilisateurBetty->setNom('Buhot');
         $utilisateurBetty->setPrenom('Betty');
         $utilisateurBetty->setEmail('betty.buhot@example.com');
-        $utilisateurBetty->setPassword('bettyBuhot');
+        $utilisateurBettyHash = $this->passwordHasher->hashPassword($utilisateurBetty, 'bettyBuhot');
+        $utilisateurBetty->setPassword($utilisateurBettyHash);
         $utilisateurBetty->setRoles(['ROLE_TUTEUR']);
         
 
@@ -74,7 +88,8 @@ class AppFixtures extends Fixture
         $utilisateurSandrine->setNom('Lebaron');
         $utilisateurSandrine->setPrenom('Sandrine');
         $utilisateurSandrine->setEmail('sandrine.lebaron@example.com');
-        $utilisateurSandrine->setPassword('sandrineLebaron');
+        $utilisateurSandrineHash = $this->passwordHasher->hashPassword($utilisateurSandrine, 'sandrineLebaron');
+        $utilisateurSandrine->setPassword($utilisateurSandrineHash);
         $utilisateurSandrine->setRoles(['ROLE_TUTEUR']);
         
 

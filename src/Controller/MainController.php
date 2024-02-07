@@ -18,21 +18,21 @@ class MainController extends AbstractController
         return $this->redirectToRoute('app_login');
     }
 
-    // #[IsGranted("ROLE_ADMIN")]
+    // #[IsGranted("ROLE_FORMATEUR")]
     #[Route('/homeFormateur', name: 'homeFormateur')]
     public function homeFormateur(): Response
     {
         return $this->render('main/homeFormateur.html.twig');
     }
 
-    // #[IsGranted("ROLE_ADMIN")]
+    // #[IsGranted("ROLE_TUTEUR")]
     #[Route('/homeTuteur', name: 'homeTuteur')]
     public function homeTuteur(): Response
     {
         return $this->render('main/homeTuteur.html.twig');
     }
 
-    // #[IsGranted("ROLE_ADMIN")]
+    // #[IsGranted("ROLE_APPRENANT")]
     #[Route('/homeApprenant', name: 'homeApprenant')]
     public function homeApprenant(): Response
     {
