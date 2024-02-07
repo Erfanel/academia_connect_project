@@ -38,4 +38,19 @@ class MainController extends AbstractController
     {
         return $this->render('main/homeApprenant.html.twig');
     }
+
+    #[Route('/homeAll', name: 'homeAll')]
+    public function homeAll(): Response
+    {
+        if( $this->isGranted('ROLE_FORMATEUR') ){
+            return $this->redirectToRoute('homeFormateur');
+        }
+        if( $this->isGranted('ROLE_TUTEUR') ){
+            return $this->redirectToRoute('homeTuteur');
+        }
+        if( $this->isGranted('ROLE_APPRENANT') ){
+            return $this->redirectToRoute('homeApprenant');
+        }
+        return $this->redirectToRoute('homeAll');
+    }
 }
