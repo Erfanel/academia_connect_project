@@ -2,17 +2,18 @@
 
 namespace App\Controller;
 
+use App\Entity\Note;
+use App\Form\NoteType;
 use App\Entity\Matiere;
 use App\Entity\Formation;
 use App\Entity\Utilisateur;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
-
 
 class FormateurController extends AbstractController
 {
@@ -90,18 +91,28 @@ class FormateurController extends AbstractController
     }
     
     #[IsGranted("ROLE_FORMATEUR")]
-    #[Route('/Formateur/{formationId}/apprenant/{apprenantId}/creerNote', name: 'formateurCreerNote')]
-    public function FormateurCreerNote($apprenantId, EntityManagerInterface $entityManager): Response
+    #[Route('/Formateur/creerNote', name: 'formateurCreerNote')]
+    public function FormateurCreerNote(EntityManagerInterface $entityManager, Request $request): Response
     {
         $user = $this->getUser();
-        //Recupérer le repo de l'apprenant {id}
-        $apprenantRepo = $entityManager->getRepository(Utilisateur::class);
-        //extraire l'ID et les apprenants de l'apprenant
-        $apprenant = $apprenantRepo->find($apprenantId);
+
+
+        $note = new Note();
+        $form = $this->createForm(NoteType::class, $note);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $note = $form->getData();
+            $entityManager->persist($note);
+            $entityManager->flush();
+            return $this->redirectToRoute('formateurApprenant', [
+                'apprenantId' => $apprenantId
+            ]);
+        }
 
         return $this->render('main/formateur/formateurCreerNote.html.twig', [
             'apprenant' => $apprenant,
-            'user' => $user
+            'user' => $user,
+            'form' => $form
         ]);
     }
 
