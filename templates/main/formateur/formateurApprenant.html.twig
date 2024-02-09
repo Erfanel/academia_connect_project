@@ -10,6 +10,24 @@
         <li>{{ apprenant.email }}</li>
     </ul>
 
+    <h1>Notes</h1>
+    <table>
+        <tr>
+            <th>Evaluation</th>
+            <th>Note</th>
+        </tr>
+        {% for note in apprenant.notes %}
+        <tr>
+            <td>{{ note.matiere.nom }}</td>
+            <td>{{ note.evaluation }}</td>
+            <td>{{ note.note }}</td>
+            <td> <button href="">Modifier</button></td>
+            <td> <button href="">Supprimer</button></td>
+            <button href="">Supprimer</button>
+        </tr>
+        {% endfor %}
+    </table>
+
     <a href="{{ path('formateurHome') }}">Retour à l'accueil formateur</a>
     <a href="{{ path('formateurFormation', {'formationId': apprenant.formationSuivie.id}) }}">Retour à {{apprenant.formationSuivie.nom}}</a>
 

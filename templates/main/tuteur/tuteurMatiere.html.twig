@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Matière Selectionnée
+{% endblock %}
+
+{% block body %}
+<h1>Liste des matières de l'apprenant</h1>
+	{% for matiere in matieres %}
+		<li>{{ matiere.nom }} 
+			<a href="{{ path('tuteurNotes', {'matiereId': matiere.id, 'apprenantId': apprenant.id }) }}">Voir les notes</a>
+			<a href="{{ path('tuteurProgramme', {'matiereId': matiere.id, 'apprenantId': apprenant.id }) }}">Voir le programme</a>
+		</li>
+	{% endfor %}
+{% endblock %}

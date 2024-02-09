@@ -23,6 +23,9 @@ class Note
     #[ORM\ManyToOne(inversedBy: 'notes')]
     private ?Utilisateur $apprenant = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $evaluation = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,6 +63,18 @@ class Note
     public function setApprenant(?Utilisateur $apprenant): static
     {
         $this->apprenant = $apprenant;
+
+        return $this;
+    }
+
+    public function getEvaluation(): ?string
+    {
+        return $this->evaluation;
+    }
+
+    public function setEvaluation(?string $evaluation): static
+    {
+        $this->evaluation = $evaluation;
 
         return $this;
     }

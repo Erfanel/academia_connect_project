@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Note;
 use App\Entity\Matiere;
 use App\Entity\Formation;
 use App\Entity\Utilisateur;
@@ -119,6 +120,30 @@ class AppFixtures extends Fixture
         $formationTssr= new Formation();
         $formationTssr->setNom('Tssr');
     
+        $noteGrancher1 = new Note();
+        $noteGrancher1->setApprenant($utilisateurGrancher);
+        $noteGrancher1->setMatiere($matiereSymfony);
+        $noteGrancher1->setNote('12.50');
+        $noteGrancher1->setEvaluation('Examen 1');
+
+        $noteGrancher2 = new Note();
+        $noteGrancher2->setApprenant($utilisateurGrancher);
+        $noteGrancher2->setMatiere($matierePhp);
+        $noteGrancher2->setNote('15.00');
+        $noteGrancher2->setEvaluation('Examen 1');
+
+        $noteBordin1 = new Note();
+        $noteBordin1->setApprenant($utilisateurBordin);
+        $noteBordin1->setMatiere($matiereSymfony);
+        $noteBordin1->setNote('10.00');
+        $noteBordin1->setEvaluation('Examen A');
+
+
+        $noteBordin2 = new Note();
+        $noteBordin2->setApprenant($utilisateurBordin);
+        $noteBordin2->setMatiere($matierePhp);
+        $noteBordin2->setNote('12.00');
+        $noteBordin2->setEvaluation('Examen A');
 
         
         //ASSOCIATIONS ---------------------------------
@@ -157,6 +182,10 @@ class AppFixtures extends Fixture
         $manager->persist($matiereWordpress);
         $manager->persist($formationDisii);
         $manager->persist($formationTssr);
+        $manager->persist($noteGrancher1);
+        $manager->persist($noteGrancher2);
+        $manager->persist($noteBordin1);
+        $manager->persist($noteBordin2);
 
 
 

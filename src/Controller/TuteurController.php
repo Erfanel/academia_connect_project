@@ -40,14 +40,28 @@ class TuteurController extends AbstractController
         $formation = $apprenant->getFormationSuivie();
         $matieres = $formation->getMatieres();
 
-        return $this->render('main/tuteur/tuteurApprenant.html.twig', [
+        return $this->render('main/tuteur/tuteurMatiere.html.twig', [
             'apprenant' => $apprenant,
             'matieres' => $matieres
         ]);
     }
 
     #[IsGranted("ROLE_TUTEUR")]
-    #[Route('/Tuteur/{apprenantId}/{matiereId}', name: 'tuteurNotes')]
+    #[Route('/Tuteur/{apprenantId}/Matiere/{matiereId}', name: 'tuteurMatiere')]
+    public function TuteurMatiere($apprenantId, $matiereId, EntityManagerInterface $entityManager): Response
+    {
+        //Recupérer le repo de la matière selectionnée {id}
+        $matiereRepo = $entityManager->getRepository(Matiere::class);
+        //extraire l'ID et les notes de la matière
+        $matiere = $matiereRepo->find($matiereId);
+
+        return $this->render('main/tuteur/tuteurMatiere.html.twig', [
+            'matiere' => $matiere
+        ]);
+    }
+
+    #[IsGranted("ROLE_TUTEUR")]
+    #[Route('/Tuteur/{apprenantId}/Notes/{matiereId}', name: 'tuteurNotes')]
     public function TuteurNotes($matiereId, $apprenantId, EntityManagerInterface $entityManager): Response
     {
         //Recupérer le repo de la matière selectionnée {id}
@@ -55,7 +69,27 @@ class TuteurController extends AbstractController
         //extraire l'ID et les notes de la matière
         $matiere = $matiereRepo->find($matiereId);
 
+        $apprenantRepo = $entityManager->getRepository(Utilisateur::class);
+        //extraire l'ID et les apprenants de l'apprenant
+        $apprenant = $apprenantRepo->find($apprenantId);
+
         return $this->render('main/tuteur/tuteurNotes.html.twig', [
+            'matiere' => $matiere
+            ,'apprenant' => $apprenant
+            
+        ]);
+    }
+
+    #[IsGranted("ROLE_TUTEUR")]
+    #[Route('/Tuteur/{apprenantId}/Programme/{matiereId}', name: 'tuteurProgramme')]
+    public function TuteurProgramme($matiereId,EntityManagerInterface $entityManager): Response
+    {
+        //Recupérer le repo de la matière selectionnée {id}
+        $matiereRepo = $entityManager->getRepository(Matiere::class);
+        //extraire l'ID et les notes de la matière
+        $matiere = $matiereRepo->find($matiereId);
+
+        return $this->render('main/tuteur/tuteurProgramme.html.twig', [
             'matiere' => $matiere
         ]);
     }

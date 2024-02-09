@@ -4,5 +4,13 @@
 {% endblock %}
 
 {% block body %}
-	//Listes matières
+	<h1>Mes matières pour la formation {{formation.nom}}</h1>
+	<ul>
+		{% for matiere in matieres %}
+			<li>{{matiere.nom}}
+			<a href="{{path('apprenantNotes', {'matiereId': matiere.id})}}"> Voir mes notes </a>
+			<a href="{{path('apprenantProgramme', {'matiereId': matiere.id})}}"> Voir le programme </a>
+			</li>
+		{% endfor %}
+	</ul>
 {% endblock %}
