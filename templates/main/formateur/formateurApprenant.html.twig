@@ -11,6 +11,7 @@
     </ul>
 
     <h1>Notes</h1>
+    <a href="{{ path('formateurCreerNote', {'apprenantId': apprenant.id, 'formationId': apprenant.formationSuivie.id})}}">Ajouter une note</a>
     <table>
         <tr>
             <th>Evaluation</th>
@@ -23,7 +24,6 @@
             <td>{{ note.note }}</td>
             <td> <button href="">Modifier</button></td>
             <td> <button href="">Supprimer</button></td>
-            <button href="">Supprimer</button>
         </tr>
         {% endfor %}
     </table>

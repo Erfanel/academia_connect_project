@@ -88,4 +88,21 @@ class FormateurController extends AbstractController
             'formation' => $formation
         ]);
     }
+    
+    #[IsGranted("ROLE_FORMATEUR")]
+    #[Route('/Formateur/{formationId}/apprenant/{apprenantId}/creerNote', name: 'formateurCreerNote')]
+    public function FormateurCreerNote($apprenantId, EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser();
+        //Recupérer le repo de l'apprenant {id}
+        $apprenantRepo = $entityManager->getRepository(Utilisateur::class);
+        //extraire l'ID et les apprenants de l'apprenant
+        $apprenant = $apprenantRepo->find($apprenantId);
+
+        return $this->render('main/formateur/formateurCreerNote.html.twig', [
+            'apprenant' => $apprenant,
+            'user' => $user
+        ]);
+    }
+
 }
