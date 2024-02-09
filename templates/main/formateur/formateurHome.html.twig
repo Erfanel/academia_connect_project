@@ -20,7 +20,7 @@
 	<ul>
 		{% for formation in formations %}
 			<li>
-				<a href="{{ path('formateurMatieres', {
+				<a href="{{ path('formateurFormation', {
                     'formationId': formation.id, 
                     'formations': formations,
                     'matieres' : matieres

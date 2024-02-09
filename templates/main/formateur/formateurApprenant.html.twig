@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Apprenant Formateur{% endblock %}
+
+{% block body %}
+    <h1>Apprenant</h1>
+    <ul>
+        <li>{{ apprenant.nom }}</li>
+        <li>{{ apprenant.prenom }}</li>
+        <li>{{ apprenant.email }}</li>
+    </ul>
+
+    <a href="{{ path('formateurHome') }}">Retour à l'accueil formateur</a>
+    <a href="{{ path('formateurFormation', {'formationId': apprenant.formationSuivie.id}) }}">Retour à {{apprenant.formationSuivie.nom}}</a>
+
+{% endblock %}

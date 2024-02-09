@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil Tuteur
+{% endblock %}
+
+{% block body %}
+	<h1>Apprenants</h1>
+	<ul>
+		{% for apprenant in apprenants %}
+		<li><a href="{{ path('tuteurApprenant', {'apprenantId': apprenant.id}) }}">{{ apprenant.nom }}</a></li>
+		{% endfor %}
+
+	</ul>
+
+	{% endblock %}

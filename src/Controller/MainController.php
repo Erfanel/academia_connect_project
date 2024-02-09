@@ -2,11 +2,15 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Matiere;
+use App\Entity\Formation;
+use App\Entity\Utilisateur;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 
@@ -18,89 +22,17 @@ class MainController extends AbstractController
         return $this->redirectToRoute('app_login');
     }
 
-    #[IsGranted("ROLE_FORMATEUR")]
-    #[Route('/Formateur', name: 'formateurHome')]
-    public function FormateurHome(): Response
-    {
-        //Recupérer les matieres du formateur
-        $user = $this->getUser();
-        $matieres = $user->getMatiereEnseignee();
-        // Récupérer les formations de chaque matiere
-        foreach ($matieres as $matiere) {
-            $formations = $matiere->getFormation();
-        }
-
-        return $this->render('main/formateur/formateurHome.html.twig', [
-            'matieres' => $matieres,
-            'formations' => $formations
-        ]);
-    }
-
-    #[IsGranted("ROLE_FORMATEUR")]
-    #[Route('/Formateur/{formationId}/', name: 'formateurMatieres')]
-    public function FormateurMatieres(): Response
-    {
-         //Recupérer les matieres du formateur
-         $user = $this->getUser();
-         $matieres = $user->getMatiereEnseignee();
-         // Récupérer les formations de chaque matiere
-         foreach ($matieres as $matiere) {
-             $formations = $matiere->getFormation();
-         }
-        
-
-        return $this->render('main/formateur/formateurMatieres.html.twig', [
-            'matieres' => $matieres,
-            'formations' => $formations
-        ]);
-    }
-
-    #[IsGranted("ROLE_TUTEUR")]
-    #[Route('/homeTuteur', name: 'homeTuteur')]
-    public function homeTuteur(): Response
-    {
-        //Recupérer les apprenants du tuteur
-        $user = $this->getUser();
-        $apprenants = $user->getApprenants();
-        //Récupérer la formation de chaque apprenant
-        foreach ($apprenants as $apprenant) {
-            $formation = $apprenant->getFormationSuivie();
-        }
-        // Récupérer les matières de cette formation
-        $matieres = $formation->getMatieres();
-
-        return $this->render('main/homeTuteur.html.twig', [
-            'apprenants' => $apprenants,
-            'matieres' => $matieres,
-            'formation' => $formation
-        ]);
-    }
-
-    #[IsGranted("ROLE_APPRENANT")]
-    #[Route('/homeApprenant', name: 'homeApprenant')]
-    public function homeApprenant(): Response
-    {
-        $user = $this->getUser();
-        $formation = $user->getFormationSuivie();
-        $matieres = $formation->getMatieres();
-
-        return $this->render('main/homeApprenant.html.twig', [
-            'formation' => $formation,
-            'matieres' => $matieres
-        ]);
-    }
 
     #[Route('/homeAll', name: 'homeAll')]
     public function homeAll(): Response
     {
-        if ($this->isGranted('ROLE_FORMATEUR')) {
-            return $this->redirectToRoute('formateurHome');
-        }
-        if ($this->isGranted('ROLE_TUTEUR')) {
-            return $this->redirectToRoute('homeTuteur');
-        }
-        if ($this->isGranted('ROLE_APPRENANT')) {
-            return $this->redirectToRoute('homeApprenant');
+        switch ($this->getUser()->getRoles()[0]) {
+            case 'ROLE_FORMATEUR':
+                return $this->redirectToRoute('formateurHome');
+            case 'ROLE_TUTEUR':
+                return $this->redirectToRoute('tuteurHome');
+            case 'ROLE_APPRENANT':
+                return $this->redirectToRoute('apprenantHome');
         }
         return $this->redirectToRoute('error');
     }

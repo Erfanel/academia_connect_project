@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Matiere{% endblock %}
+
+{% block body %}
+    <h1>Matiere</h1>
+    <h2>{{ matiere.nom }}</h2>
+    <h2>{{ matiere.programme }}</h2>
+
+    <a href="{{ path('formateurHome') }}">Retour à l'accueil formateur</a>
+    <a href="{{ path('formateurFormation', {'formationId': formation.id}) }}">Retour à {{formation.nom}}</a>
+
+{% endblock %}
