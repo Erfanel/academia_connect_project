@@ -7,6 +7,7 @@ use App\Form\NoteType;
 use App\Entity\Matiere;
 use App\Entity\Formation;
 use App\Entity\Utilisateur;
+use App\Form\DeleteNoteType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,7 +39,7 @@ class FormateurController extends AbstractController
 
     #[IsGranted("ROLE_FORMATEUR")]
     #[Route('/Formateur/{formationId}/', name: 'formateurFormation')]
-    public function FormateurFormation($formationId,EntityManagerInterface $entityManager): Response
+    public function FormateurFormation($formationId, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
         $matieres = $user->getMatiereEnseignee();
@@ -72,7 +73,7 @@ class FormateurController extends AbstractController
 
     #[IsGranted("ROLE_FORMATEUR")]
     #[Route('/Formateur/{formationId}/matiere/{matiereId}', name: 'formateurMatiere')]
-    public function FormateurMatiere($formationId, $matiereId,EntityManagerInterface $entityManager): Response
+    public function FormateurMatiere($formationId, $matiereId, EntityManagerInterface $entityManager): Response
     {
         //Recupérer le repo de la matiere {id}
         $matiereRepo = $entityManager->getRepository(Matiere::class);
@@ -89,7 +90,7 @@ class FormateurController extends AbstractController
             'formation' => $formation
         ]);
     }
-    
+
     #[IsGranted("ROLE_FORMATEUR")]
     #[Route('/Formateur/{formationId}/apprenant/{apprenantId}/creerNote', name: 'formateurCreerNote')]
     public function FormateurCreerNote(EntityManagerInterface $entityManager, Request $request, $formationId, $apprenantId): Response
@@ -97,9 +98,8 @@ class FormateurController extends AbstractController
         //Recupérer 'apprenant' et le formateur
         $apprenantRepo = $entityManager->getRepository(Utilisateur::class);
         $apprenant = $apprenantRepo->find($apprenantId);
-        
 
-        //générer le formulaire
+        //Générer le formulaire
         $note = new Note();
         $form = $this->createForm(NoteType::class, $note);
         //envoyer le formulaire et traiter l'ajout
@@ -108,7 +108,7 @@ class FormateurController extends AbstractController
             $note = $form->getData();
             $entityManager->persist($note);
             $entityManager->flush();
-            return $this->redirectToRoute('formateurApprenant', [ 'apprenantId' => $apprenantId, 'formationId' => $formationId]);
+            return $this->redirectToRoute('formateurApprenant', ['apprenantId' => $apprenantId, 'formationId' => $formationId]);
         }
 
         return $this->render('main/formateur/formateurCreerNote.html.twig', [
@@ -117,8 +117,26 @@ class FormateurController extends AbstractController
         ]);
     }
 
-    
 
+    #[IsGranted("ROLE_FORMATEUR")]
+    #[Route('/Formateur/SupprimerNote/{noteId}', name: 'formateurSupprimerNote')]
+    public function FormateurSupprimerNote(EntityManagerInterface $entityManager, $noteId ): Response
+    {
 
+        //Recupérer noteID, 
+        $noteRepo = $entityManager->getRepository(Note::class);
+        $noteId = 
+        $note = $noteRepo->find($noteId);
+        //Vérifier si la note existe
+        if (!$note) {
+            throw $this->createNotFoundException('Grade not found');
+        }
+        //supprimer la note
+        $entityManager->remove($note);
+        $entityManager->flush();
+        $this->addFlash('success', 'Grade deleted successfully.');
 
+        //rediriger vers la formation
+        return $this->redirectToRoute('formateurHome');
+    }
 }
