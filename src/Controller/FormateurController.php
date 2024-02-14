@@ -56,6 +56,7 @@ class FormateurController extends AbstractController
         ]);
     }
 
+    //APPRENANT
     #[IsGranted("ROLE_FORMATEUR")]
     #[Route('/Formateur/{formationId}/apprenant/{apprenantId}/', name: 'formateurApprenant')]
     public function FormateurApprenant($formationId, $apprenantId, EntityManagerInterface $entityManager): Response
@@ -71,6 +72,7 @@ class FormateurController extends AbstractController
         ]);
     }
 
+    //MATIERE
     #[IsGranted("ROLE_FORMATEUR")]
     #[Route('/Formateur/{formationId}/matiere/{matiereId}', name: 'formateurMatiere')]
     public function FormateurMatiere($formationId, $matiereId, EntityManagerInterface $entityManager): Response
@@ -91,6 +93,7 @@ class FormateurController extends AbstractController
         ]);
     }
 
+    //CREER NOTE
     #[IsGranted("ROLE_FORMATEUR")]
     #[Route('/Formateur/{formationId}/apprenant/{apprenantId}/creerNote', name: 'formateurCreerNote')]
     public function FormateurCreerNote(EntityManagerInterface $entityManager, Request $request, $formationId, $apprenantId): Response

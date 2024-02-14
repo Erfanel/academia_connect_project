@@ -9,7 +9,8 @@
 		{{ apprenant.nom }}</h1>
 	<form action="{{ path('formateurCreerNote', {'apprenantId': apprenant.id, 'formationId': apprenant.formationSuivie.id}) }}" method="post">
 		{{ form_start(form) }}
-			<input type="submit">
+		{{ form_widget(form) }}
+		<input type="submit">
 		{{ form_end(form) }}
 
 	</form>
