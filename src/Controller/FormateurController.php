@@ -65,7 +65,8 @@ class FormateurController extends AbstractController
         $apprenant = $apprenantRepo->find($apprenantId);
 
         return $this->render('main/formateur/formateurApprenant.html.twig', [
-            'apprenant' => $apprenant
+            'apprenant' => $apprenant,
+            'formationId' => $formationId
         ]);
     }
 
@@ -90,26 +91,34 @@ class FormateurController extends AbstractController
     }
     
     #[IsGranted("ROLE_FORMATEUR")]
-    #[Route('/Formateur/creerNote', name: 'formateurCreerNote')]
-    public function FormateurCreerNote(EntityManagerInterface $entityManager, Request $request): Response
+    #[Route('/Formateur/{formationId}/apprenant/{apprenantId}/creerNote', name: 'formateurCreerNote')]
+    public function FormateurCreerNote(EntityManagerInterface $entityManager, Request $request, $formationId, $apprenantId): Response
     {
-        $user = $this->getUser();
+        //Recupérer 'apprenant' et le formateur
+        $apprenantRepo = $entityManager->getRepository(Utilisateur::class);
+        $apprenant = $apprenantRepo->find($apprenantId);
         
+
+        //générer le formulaire
         $note = new Note();
         $form = $this->createForm(NoteType::class, $note);
+        //envoyer le formulaire et traiter l'ajout
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $note = $form->getData();
             $entityManager->persist($note);
             $entityManager->flush();
-            return $this->redirectToRoute('formateurApprenant', [
-            ]);
+            return $this->redirectToRoute('formateurApprenant', [ 'apprenantId' => $apprenantId, 'formationId' => $formationId]);
         }
 
         return $this->render('main/formateur/formateurCreerNote.html.twig', [
-            'user' => $user,
-            'form' => $form
+            'form' => $form->createView(),
+            'apprenant' => $apprenant
         ]);
     }
+
+    
+
+
 
 }

@@ -7,8 +7,10 @@
 	<h1>Ajouter une note pour
 		{{ apprenant.prenom }}
 		{{ apprenant.nom }}</h1>
-	<form action="" method="post">
-        {{ form(form) }}
-        <button type="submit">Ajouter la note</button>
+	<form action="{{ path('formateurCreerNote', {'apprenantId': apprenant.id, 'formationId': apprenant.formationSuivie.id}) }}" method="post">
+		{{ form_start(form) }}
+			<input type="submit">
+		{{ form_end(form) }}
+
 	</form>
 {% endblock %}
