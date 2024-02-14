@@ -22,11 +22,15 @@
             <td>{{ note.matiere.nom }}</td>
             <td>{{ note.evaluation }}</td>
             <td>{{ note.note }}</td>
-            <td> <button href="">Modifier</button></td>
+            <td> 
+                <a href="{{ path('formateurModifierNote', {'noteId': note.id}) }}">Modifier</a>
+            </td>
             <td> 
                 <form action="{{ path('formateurSupprimerNote', {'noteId': note.id}) }}" method="post">
                 <input type="submit" value="Supprimer"></form>
             </td>
+
+            
             
         </tr>
         {% endfor %}

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Modifier la note</title>
+	</head>
+	<body>
+		<h1>Modifier la note</h1>
+		<form action="{{ path('formateurModifierNote', {'noteId': note.id}) }}" method="post">
+			{{ form_start(form) }}
+			{{ form_errors(form) }}
+			{{ form_row(form.note) }}
+			{{ form_row(form.evaluation) }}
+            <div style="display: none;">
+                {{ form_row(form.apprenant) }}
+                {{ form_row(form.matiere) }}
+            </div>
+			<input type="submit">
+            {{ form_end(form) }}
+
+		</select>
+	</body>
+</html>

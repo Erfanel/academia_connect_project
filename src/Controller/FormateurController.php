@@ -120,15 +120,14 @@ class FormateurController extends AbstractController
         ]);
     }
 
-
+    //SUPPRIMER NOTE
     #[IsGranted("ROLE_FORMATEUR")]
     #[Route('/Formateur/SupprimerNote/{noteId}', name: 'formateurSupprimerNote')]
-    public function FormateurSupprimerNote(EntityManagerInterface $entityManager, $noteId ): Response
+    public function FormateurSupprimerNote(EntityManagerInterface $entityManager, $noteId): Response
     {
 
         //Recupérer noteID, 
         $noteRepo = $entityManager->getRepository(Note::class);
-        $noteId = 
         $note = $noteRepo->find($noteId);
         //Vérifier si la note existe
         if (!$note) {
@@ -142,4 +141,35 @@ class FormateurController extends AbstractController
         //rediriger vers la formation
         return $this->redirectToRoute('formateurHome');
     }
-}
+
+    //MODIFIER NOTE PAGE
+    #[IsGranted("ROLE_FORMATEUR")]
+    #[Route('/Formateur/ModifierNote/{noteId}', name: 'formateurModifierNote')]
+    public function FormateurModifierNote(EntityManagerInterface $entityManager, $noteId, Request $request): Response
+    {
+
+        //Recupérer noteID, 
+        $noteRepo = $entityManager->getRepository(Note::class);
+        $note = $noteRepo->find($noteId);
+        //Vérifier si la note existe
+        if (!$note) {
+            throw $this->createNotFoundException('Grade not found');
+        }
+        $this->addFlash('success', 'Grade deleted successfully.');
+
+        $form = $this->createForm(NoteType::class, $note);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $newNote = $form->getData();
+            $entityManager->persist($newNote);
+            $entityManager->flush();
+            return $this->redirectToRoute('formateurHome');
+        }
+
+        //Afficher le formulaire de modification
+        return $this->render('main/formateur/formateurModifierNote.html.twig', [
+            'note' => $note,
+            'form' => $form->createView(),
+        ]);
+    }
+} 
