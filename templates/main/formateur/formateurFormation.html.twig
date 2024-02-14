@@ -5,8 +5,6 @@
 
 {% block body %}
 	<h1>{{formation.nom}}</h1>
-	<a href="{{ path('formateurCreerNote')}}">Ajouter une note</a>
-
 	<h2>Matières</h2>
 	<ul>
 		{% for matiere in matieres %}

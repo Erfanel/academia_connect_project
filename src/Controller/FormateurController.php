@@ -40,7 +40,6 @@ class FormateurController extends AbstractController
     #[Route('/Formateur/{formationId}/', name: 'formateurFormation')]
     public function FormateurFormation($formationId,EntityManagerInterface $entityManager): Response
     {
-        
         $user = $this->getUser();
         $matieres = $user->getMatiereEnseignee();
         //Recupérer le repo de la formation {id}
@@ -95,8 +94,7 @@ class FormateurController extends AbstractController
     public function FormateurCreerNote(EntityManagerInterface $entityManager, Request $request): Response
     {
         $user = $this->getUser();
-
-
+        
         $note = new Note();
         $form = $this->createForm(NoteType::class, $note);
         $form->handleRequest($request);
@@ -105,12 +103,10 @@ class FormateurController extends AbstractController
             $entityManager->persist($note);
             $entityManager->flush();
             return $this->redirectToRoute('formateurApprenant', [
-                'apprenantId' => $apprenantId
             ]);
         }
 
         return $this->render('main/formateur/formateurCreerNote.html.twig', [
-            'apprenant' => $apprenant,
             'user' => $user,
             'form' => $form
         ]);
