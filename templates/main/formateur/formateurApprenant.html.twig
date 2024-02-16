@@ -22,7 +22,7 @@
                 <a href="{{ path('formateurModifierNote', {'noteId': note.id, 'formationId': apprenant.formationSuivie.id, 'apprenantId': apprenant.id}) }}">Modifier</a>
             </td>
             <td> 
-                <form action="{{ path('formateurSupprimerNote', {'noteId': note.id}) }}" method="post">
+                <form action="{{ path('formateurSupprimerNote', {'noteId': note.id, 'formationId': apprenant.formationSuivie.id, 'apprenantId': apprenant.id}) }}" method="post">
                 <input type="submit" value="Supprimer"></form>
             </td>
 

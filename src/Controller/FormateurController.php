@@ -123,8 +123,8 @@ class FormateurController extends AbstractController
 
     //SUPPRIMER NOTE
     #[IsGranted("ROLE_FORMATEUR")]
-    #[Route('/Formateur/SupprimerNote/{noteId}', name: 'formateurSupprimerNote')]
-    public function FormateurSupprimerNote(EntityManagerInterface $entityManager, $noteId): Response
+    #[Route('/Formateur/formation/{formationId}/apprenant/{apprenantId}/SupprimerNote/{noteId}', name: 'formateurSupprimerNote')]
+    public function FormateurSupprimerNote(EntityManagerInterface $entityManager, $noteId, $formationId, $apprenantId): Response
     {
 
         //Recupérer noteID, 
@@ -140,7 +140,7 @@ class FormateurController extends AbstractController
         $this->addFlash('success', 'Grade deleted successfully.');
 
         //rediriger vers la formation
-        return $this->redirectToRoute('formateurHome');
+        return $this->redirectToRoute('formateurApprenant', ['apprenantId' => $apprenantId, 'formationId' => $formationId]);
     }
 
     //MODIFIER NOTE 
@@ -170,7 +170,7 @@ class FormateurController extends AbstractController
             $newNote = $form->getData();
             $entityManager->persist($newNote);
             $entityManager->flush();
-            return $this->redirectToRoute('formateurHome');
+            return $this->redirectToRoute('formateurApprenant', ['apprenantId' => $apprenantId, 'formationId' => $formationId]);
         }
 
         //Afficher le formulaire de modification

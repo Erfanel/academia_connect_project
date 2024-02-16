@@ -7,13 +7,22 @@
 	<h1>Ajouter une note pour
 		{{ apprenant.prenom }}
 		{{ apprenant.nom }}</h1>
+
 	<form action="{{ path('formateurCreerNote', {'apprenantId': apprenant.id, 'formationId': apprenant.formationSuivie.id}) }}" method="post">
 		{{ form_start(form) }}
+		{{ form_row(form.evaluation) }}
+		{{ form_row(form.note, {'type': 'number', 'attr': {'min': 0, 'max': 20}}) }}
+		<div style="display: none;">
+			{{ form_row(form.apprenant, {'value': apprenant.id }) }}
+		</div>
 		{{ form_widget(form) }}
 		<input type="submit">
 		{{ form_end(form) }}
 	</form>
-	<a href="{{ path('formateurApprenant', {'apprenantId': apprenant.id, 'formationId': apprenant.formationSuivie.id})}}">Retour au profil de {{ apprenant.prenom }} {{ apprenant.nom }}</a>
+
+	<a href="{{ path('formateurApprenant', {'apprenantId': apprenant.id, 'formationId': apprenant.formationSuivie.id})}}">Retour au profil de
+		{{ apprenant.prenom }}
+		{{ apprenant.nom }}</a>
 	<br>
 	<a href="{{ path('formateurHome') }}">Retour à l'accueil formateur</a>
 {% endblock %}
