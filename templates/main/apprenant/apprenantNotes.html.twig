@@ -4,6 +4,21 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Les notes de {{ user.prenom }} {{ user.nom }} pour la matiere {{ matiere.nom }}</h1>
+	<h1>Les notes de {{ user.prenom }} {{ user.nom }} </h1>
+	<table>
+		<tr>
+			<th>Matière</th>
+			<th>Evaluation</th>
+			<th>Note</th>
+		</tr>
+		{% for note in notes %}
+			<tr>
+				<td>{{note.matiere.nom}}</td>
+				<td>{{note.evaluation}}</td>
+				<td>{{note.note}}</td>
+			</tr>
+		{% endfor %}
+	</table>
+	<a href="{{ path('apprenantHome') }}"> Retour à l'accueil</a>
 
 {% endblock %}

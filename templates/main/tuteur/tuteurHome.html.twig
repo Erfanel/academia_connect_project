@@ -4,10 +4,11 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Apprenants</h1>
+<h1>Bonjour {{ user.prenom }} {{ user.nom }}</h1>
+	<h2>Vos apprenants</h2>
 	<ul>
 		{% for apprenant in apprenants %}
-		<li><a href="{{ path('tuteurApprenant', {'apprenantId': apprenant.id}) }}">{{ apprenant.nom }}</a></li>
+		<li><a href="{{ path('tuteurApprenant', {'apprenantId': apprenant.id}) }}">{{ apprenant.nom }} {{ apprenant.prenom }}</a></li>
 		{% endfor %}
 
 	</ul>

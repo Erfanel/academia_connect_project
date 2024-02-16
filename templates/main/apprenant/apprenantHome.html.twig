@@ -4,13 +4,28 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Mes matières pour la formation {{formation.nom}}</h1>
-	<ul>
+	<h1>Bonjour
+		{{ user.prenom }}
+		{{ user.nom }}</h1>
+	<h2>Mes matières pour la formation
+		{{formation.nom}}</h2>
+
+	<a href="{{path('apprenantNotes')}}">
+		Voir mes notes
+	</a>
+
+	<table>
 		{% for matiere in matieres %}
-			<li>{{matiere.nom}}
-			<a href="{{path('apprenantNotes', {'matiereId': matiere.id})}}"> Voir mes notes </a>
-			<a href="{{path('apprenantProgramme', {'matiereId': matiere.id})}}"> Voir le programme </a>
-			</li>
+			<tr>
+				<td>{{matiere.nom}}
+				</td>
+				<td>
+					<a href="{{path('apprenantProgramme', {'matiereId': matiere.id})}}">
+						Voir le programme
+					</a>
+				</td>
+			</tr>
 		{% endfor %}
-	</ul>
+
+	</table>
 {% endblock %}

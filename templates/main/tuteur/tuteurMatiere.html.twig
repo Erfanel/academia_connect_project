@@ -4,11 +4,10 @@
 {% endblock %}
 
 {% block body %}
-<h1>Liste des matières de l'apprenant</h1>
-	{% for matiere in matieres %}
-		<li>{{ matiere.nom }} 
-			<a href="{{ path('tuteurNotes', {'matiereId': matiere.id, 'apprenantId': apprenant.id }) }}">Voir les notes</a>
-			<a href="{{ path('tuteurProgramme', {'matiereId': matiere.id, 'apprenantId': apprenant.id }) }}">Voir le programme</a>
-		</li>
-	{% endfor %}
+
+	<h1>{{ matiere.nom }}</h1>
+	<h2>Programme</h2>
+	<p>{{ matiere.programme }}</p>
+	<a href="{{ path('tuteurHome') }}">Retour à l'accueil tuteur</a>
+
 {% endblock %}

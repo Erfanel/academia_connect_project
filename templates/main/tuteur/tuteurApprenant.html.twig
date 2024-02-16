@@ -1,13 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil Formateur
+{% block title %}Profil apprenant
 {% endblock %}
 
 {% block body %}
-	<h1>Matières suivies</h1>
+	<h1>Profil de {{ apprenant.prenom }} {{ apprenant.nom }}</h1>
+	<a href="{{ path('tuteurNotes', {'apprenantId': apprenant.id })}}">Voir les notes</a>
+	<h2>Matières</h2>
 	<ul>
 		{% for matiere in matieres %}
-		<li><a href="{{ path('tuteurNotes', {'matiereId': matiere.id, 'apprenantId': apprenant.id }) }}">{{ matiere.nom }}</a></li>
+		<li><a href="{{ path('tuteurMatiere', {'matiereId': matiere.id, 'apprenantId': apprenant.id }) }}">{{ matiere.nom }}</a></li>
 		{% endfor %}
 	</ul>
 {% endblock %}
