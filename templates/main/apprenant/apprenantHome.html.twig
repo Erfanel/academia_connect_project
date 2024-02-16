@@ -7,13 +7,13 @@
 	<h1>Bonjour
 		{{ user.prenom }}
 		{{ user.nom }}</h1>
-	<h2>Mes matières pour la formation
-		{{formation.nom}}</h2>
+	<h2>Mes notes</h2>
 
 	<a href="{{path('apprenantNotes')}}">
 		Voir mes notes
 	</a>
-
+	<h2>Mes matières pour la formation
+		{{formation.nom}}</h2>
 	<table>
 		{% for matiere in matieres %}
 			<tr>
@@ -28,4 +28,5 @@
 		{% endfor %}
 
 	</table>
+	<a href="{{path('app_logout')}}">Se deconnecter</a>
 {% endblock %}

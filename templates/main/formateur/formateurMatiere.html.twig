@@ -1,15 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Matiere{% endblock %}
+{% block title %}Matiere
+{% endblock %}
 
 {% block body %}
-    <h1>Matiere</h1>
-    <h2>{{ matiere.nom }}</h2>
-    <h1>Programme</h1>
-    <a href=" {{ path('formateurModifierProgramme', {'matiereId': matiere.id, 'formationId': formation.id}) }}">Modifier le programme</a>
-    <h2>{{ matiere.programme }}</h2>
+	<h1>{{ matiere.nom }}</h1>
+	<h2>Programme</h2>
+	<a href=" {{ path('formateurModifierProgramme', {'matiereId': matiere.id, 'formationId': formation.id}) }}">Modifier le programme</a>
+	<p>{{ matiere.programme }}</p>
 
-    <a href="{{ path('formateurHome') }}">Retour à l'accueil formateur</a>
-    <a href="{{ path('formateurFormation', {'formationId': formation.id}) }}">Retour à {{formation.nom}}</a>
+	<a href="{{ path('formateurFormation', {'formationId': formation.id}) }}">Retour à la page
+		{{formation.nom}}</a>
+	<br>
+	<a href="{{ path('formateurHome') }}">Retour à l'accueil formateur</a>
+
 
 {% endblock %}

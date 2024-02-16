@@ -4,19 +4,8 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Accueil Formateur</h1>
-	<ul>
-		{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-			<li>Email:
-				{{ app.user.email }}</li>
-			<li>Nom:
-				{{ app.user.nom }}</li>
-			<li>
-				Prenom:
-				{{ app.user.prenom }}</li>
-		{% endif %}
-	</ul>
-	<h2>Formations</h2>
+	<h1>Bienvenue {{ app.user.prenom }} {{ app.user.nom }}</h1>
+	<h2>Vos formations</h2>
 	<ul>
 		{% for formation in formations %}
 			<li>

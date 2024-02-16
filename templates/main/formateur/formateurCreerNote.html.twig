@@ -13,5 +13,7 @@
 		<input type="submit">
 		{{ form_end(form) }}
 	</form>
+	<a href="{{ path('formateurApprenant', {'apprenantId': apprenant.id, 'formationId': apprenant.formationSuivie.id})}}">Retour au profil de {{ apprenant.prenom }} {{ apprenant.nom }}</a>
+	<br>
 	<a href="{{ path('formateurHome') }}">Retour à l'accueil formateur</a>
 {% endblock %}

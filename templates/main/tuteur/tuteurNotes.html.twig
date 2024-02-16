@@ -19,5 +19,7 @@
 			</tr>
 		{% endfor %}
 	</table>
+	<a href="{{ path('tuteurApprenant', {'apprenantId': apprenant.id})}}">Retour au profil de {{ apprenant.prenom }} {{ apprenant.nom }}</a>
+	<br>
 	<a href="{{ path('tuteurHome') }}">Retour à l'accueil tuteur</a>
 {% endblock %}

@@ -8,6 +8,9 @@
 	<h1>{{ matiere.nom }}</h1>
 	<h2>Programme</h2>
 	<p>{{ matiere.programme }}</p>
+	<a href="{{ path('tuteurApprenant', {'apprenantId': apprenant.id})}}">Retour au profil de {{ apprenant.prenom }} {{ apprenant.nom }}</a>
+	<br>
 	<a href="{{ path('tuteurHome') }}">Retour à l'accueil tuteur</a>
+
 
 {% endblock %}

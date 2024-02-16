@@ -84,7 +84,8 @@ class TuteurController extends AbstractController
 
         return $this->render('main/tuteur/tuteurNotes.html.twig', [
             'apprenant' => $apprenant,
-            'notes' => $notes
+            'notes' => $notes,
+            'apprenant' => $apprenant
         ]);
     }
 }

@@ -12,4 +12,5 @@
 		<li><a href="{{ path('tuteurMatiere', {'matiereId': matiere.id, 'apprenantId': apprenant.id }) }}">{{ matiere.nom }}</a></li>
 		{% endfor %}
 	</ul>
+	<a href="{{ path('tuteurHome') }}">Retour à la liste des étudiants</a>
 {% endblock %}

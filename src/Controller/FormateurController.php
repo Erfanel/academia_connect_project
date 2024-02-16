@@ -143,11 +143,17 @@ class FormateurController extends AbstractController
         return $this->redirectToRoute('formateurHome');
     }
 
-    //MODIFIER NOTE PAGE
+    //MODIFIER NOTE 
     #[IsGranted("ROLE_FORMATEUR")]
-    #[Route('/Formateur/ModifierNote/{noteId}', name: 'formateurModifierNote')]
-    public function FormateurModifierNote(EntityManagerInterface $entityManager, $noteId, Request $request): Response
+    #[Route('/Formateur/Formation/{formationId}/Apprenant/{apprenantId}/ModifierNote/{noteId}', name: 'formateurModifierNote')]
+    public function FormateurModifierNote(EntityManagerInterface $entityManager, $noteId,$formationId, $apprenantId, Request $request): Response
     {
+        //recupérer formation
+        $formationRepo = $entityManager->getRepository(Formation::class);
+        $formation = $formationRepo->find($formationId);
+        //récupérer apprenant
+        $apprenantRepo = $entityManager->getRepository(Utilisateur::class);
+        $apprenant = $apprenantRepo->find($apprenantId);
 
         //Recupérer noteID, 
         $noteRepo = $entityManager->getRepository(Note::class);
@@ -171,13 +177,16 @@ class FormateurController extends AbstractController
         return $this->render('main/formateur/formateurModifierNote.html.twig', [
             'note' => $note,
             'form' => $form->createView(),
+            'apprenant' => $apprenant,
+            'formation' => $formation
+
         ]);
     }
 
     //MODIFIER PROGRAMME
     #[IsGranted("ROLE_FORMATEUR")]
-    #[Route('/Formateur/{matiereId}/modifierProgramme', name: 'formateurModifierProgramme')]
-    public function FormateurModifierProgramme(EntityManagerInterface $entityManager, $matiereId, Request $request ): Response
+    #[Route('/Formateur/{formationId}/matiere/{matiereId}/modifierProgramme', name: 'formateurModifierProgramme')]
+    public function FormateurModifierProgramme(EntityManagerInterface $entityManager, $matiereId, Request $request, $formationId ): Response
     {
 
         //Recupérer matiereID, 
@@ -187,6 +196,14 @@ class FormateurController extends AbstractController
         if (!$matiere) {
             throw $this->createNotFoundException('Matiere not found');
         }
+        //Recupérer la formation
+        $formationRepo = $entityManager->getRepository(Formation::class);
+        $formation = $formationRepo->find($formationId);
+        //Vérifier si la formation existe
+        if (!$formation) {
+            throw $this->createNotFoundException('Formation not found');
+        }
+        $this->addFlash('success', 'Formation deleted successfully.');
 
         //Générer le formulaire pour la matiere
         $form = $this->createForm(MatiereType::class, $matiere);
@@ -201,6 +218,7 @@ class FormateurController extends AbstractController
         //Afficher le formulaire de modification
         return $this->render('main/formateur/formateurModifierProgramme.html.twig', [
             'matiere' => $matiere,
+            'formation' => $formation,
             'form' => $form->createView(),
 
         ]);

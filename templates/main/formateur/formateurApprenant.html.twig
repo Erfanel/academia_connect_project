@@ -1,14 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Apprenant Formateur{% endblock %}
+{% block title %}Profil de l'apprenant{% endblock %}
 
 {% block body %}
-    <h1>Apprenant</h1>
-    <ul>
-        <li>{{ apprenant.nom }}</li>
-        <li>{{ apprenant.prenom }}</li>
-        <li>{{ apprenant.email }}</li>
-    </ul>
+    <h1>{{ apprenant.prenom }} {{ apprenant.nom }} </h1>
+    <p>{{ apprenant.email }}</p>
 
     <h1>Notes</h1>
     <a href="{{ path('formateurCreerNote', {'apprenantId': apprenant.id, 'formationId': apprenant.formationSuivie.id})}}">Ajouter une note</a>
@@ -23,7 +19,7 @@
             <td>{{ note.evaluation }}</td>
             <td>{{ note.note }}</td>
             <td> 
-                <a href="{{ path('formateurModifierNote', {'noteId': note.id}) }}">Modifier</a>
+                <a href="{{ path('formateurModifierNote', {'noteId': note.id, 'formationId': apprenant.formationSuivie.id, 'apprenantId': apprenant.id}) }}">Modifier</a>
             </td>
             <td> 
                 <form action="{{ path('formateurSupprimerNote', {'noteId': note.id}) }}" method="post">
@@ -36,7 +32,7 @@
         {% endfor %}
     </table>
 
-    <a href="{{ path('formateurHome') }}">Retour à l'accueil formateur</a>
+    <a href="{{ path('formateurHome') }}">Retour à l'accueil formateur</a> <br>
     <a href="{{ path('formateurFormation', {'formationId': apprenant.formationSuivie.id}) }}">Retour à {{apprenant.formationSuivie.nom}}</a>
 
 {% endblock %}

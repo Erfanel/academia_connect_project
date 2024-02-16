@@ -7,7 +7,7 @@
 	<h1>Matiere</h1>
 	<h2>{{ matiere.nom }}</h2>
 	<h1>Modifier le programme</h1>
-	<form action="{{ path('formateurModifierProgramme', {'matiereId': matiere.id}) }}" method="post">
+	<form action="{{ path('formateurModifierProgramme', {'matiereId': matiere.id, 'formationId': formation.id}) }}" method="post">
 		{{ form_start(form) }}
 		{{ form_errors(form) }}
 		{{ form_row(form.programme) }}
@@ -19,6 +19,7 @@
 		<input type="submit">
 		{{ form_end(form) }}
 	</form>
+	<a href="{{ path('formateurMatiere', {'matiereId': matiere.id, 'formationId': formation.id}) }}"> Retour a la page {{ matiere.nom }}</a><br>
 	<a href="{{ path('formateurHome') }}">Retour à l'accueil formateur</a>
 
 {% endblock %}
