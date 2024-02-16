@@ -6,6 +6,7 @@ use App\Entity\Note;
 use App\Form\NoteType;
 use App\Entity\Matiere;
 use App\Entity\Formation;
+use App\Form\MatiereType;
 use App\Entity\Utilisateur;
 use App\Form\DeleteNoteType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -170,6 +171,38 @@ class FormateurController extends AbstractController
         return $this->render('main/formateur/formateurModifierNote.html.twig', [
             'note' => $note,
             'form' => $form->createView(),
+        ]);
+    }
+
+    //MODIFIER PROGRAMME
+    #[IsGranted("ROLE_FORMATEUR")]
+    #[Route('/Formateur/{matiereId}/modifierProgramme', name: 'formateurModifierProgramme')]
+    public function FormateurModifierProgramme(EntityManagerInterface $entityManager, $matiereId, Request $request ): Response
+    {
+
+        //Recupérer matiereID, 
+        $matiereRepo = $entityManager->getRepository(Matiere::class);
+        $matiere = $matiereRepo->find($matiereId);
+        //Vérifier si la matiere existe
+        if (!$matiere) {
+            throw $this->createNotFoundException('Matiere not found');
+        }
+
+        //Générer le formulaire pour la matiere
+        $form = $this->createForm(MatiereType::class, $matiere);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $newMatiere = $form->getData();
+            $entityManager->persist($newMatiere);
+            $entityManager->flush();
+            return $this->redirectToRoute('formateurHome');
+        }
+
+        //Afficher le formulaire de modification
+        return $this->render('main/formateur/formateurModifierProgramme.html.twig', [
+            'matiere' => $matiere,
+            'form' => $form->createView(),
+
         ]);
     }
 } 

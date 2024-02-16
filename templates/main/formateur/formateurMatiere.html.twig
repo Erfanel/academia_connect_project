@@ -5,6 +5,8 @@
 {% block body %}
     <h1>Matiere</h1>
     <h2>{{ matiere.nom }}</h2>
+    <h1>Programme</h1>
+    <a href=" {{ path('formateurModifierProgramme', {'matiereId': matiere.id, 'formationId': formation.id}) }}">Modifier le programme</a>
     <h2>{{ matiere.programme }}</h2>
 
     <a href="{{ path('formateurHome') }}">Retour à l'accueil formateur</a>
