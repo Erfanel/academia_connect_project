@@ -2,13 +2,14 @@
 
 namespace App\Controller;
 
-use App\Entity\Formation;
-use App\Entity\Matiere;
 use App\Entity\Note;
+use App\Entity\Matiere;
+use App\Entity\Formation;
 use App\Entity\Utilisateur;
-use App\Form\FormationAdminType;
-use App\Form\MatiereAdminType;
 use App\Form\NoteAdminType;
+use Psr\Log\LoggerInterface;
+use App\Form\MatiereAdminType;
+use App\Form\FormationAdminType;
 use App\Form\UtilisateurAdminType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,6 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AdminController extends AbstractController
 {
@@ -28,17 +30,30 @@ class AdminController extends AbstractController
 
     #[IsGranted("ROLE_ADMIN")]
     #[Route('/admin/user', name: 'adminNewUser')]
-    public function AdminNewUser(EntityManagerInterface $entityManager, Request $request): Response
+    public function AdminNewUser(EntityManagerInterface $entityManager, Request $request, LoggerInterface $logger, UserPasswordHasherInterface $passwordHasher): Response
     {
         $utilisateur = new Utilisateur();
         $form = $this->createForm(UtilisateurAdminType::class, $utilisateur);
         //envoyer le formulaire et traiter l'ajout
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $utilisateur = $form->getData();
-            $entityManager->persist($utilisateur);
-            $entityManager->flush();
-            return $this->redirectToRoute('adminHome');
+            try {
+                //Get the data from the form
+                $utilisateur = $form->getData();
+                
+                // Get and hash the password
+                $hashedPassword = $passwordHasher->hashPassword($utilisateur, $utilisateur->getPassword());
+                // Set the hashed password
+                $utilisateur->setPassword($hashedPassword);
+
+                // Persist the user to the database
+                $entityManager->persist($utilisateur);
+                $entityManager->flush();
+                return $this->redirectToRoute('adminHome');
+            } catch (\Exception $e) {
+                // Log any exceptions that occur during entity persistence
+                $logger->error('Error occurred while persisting utilisateur: ' . $e->getMessage());
+            }
         }
 
         return $this->render('admin/adminNewUser.html.twig', [
