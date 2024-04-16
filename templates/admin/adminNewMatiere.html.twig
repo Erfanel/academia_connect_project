@@ -6,7 +6,7 @@
 {% block body %}
 	<a href="{{ path('adminHome') }}">Retour a l'accueil admin</a>
 	<h1>Ajouter une matière</h1>
-	<form action="{{ path('adminHome') }}" method="post">
+	<form action="{{ path('adminNewMatiere') }}" method="post">
 		{{ form_start(form) }}
 		{{ form_widget(form) }}
 		<input type="submit">
