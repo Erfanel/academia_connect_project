@@ -20,6 +20,17 @@ class AppFixtures extends Fixture
     }
     public function load(ObjectManager $manager): void
     {
+        $admin = new Utilisateur();
+        $admin->setNom('admin');
+        $admin->setPrenom('admin');
+        $admin->setEmail('admin@admin.com');
+        $adminHash = $this->passwordHasher->hashPassword($admin, 'admin');
+        $admin->setPassword($adminHash);
+        $admin->setRoles(['ROLE_ADMIN']);
+
+
+
+
         //FORMATEUR
         $utilisateurThiery = new Utilisateur();
         $utilisateurThiery->setNom('Thiery');
@@ -186,6 +197,7 @@ class AppFixtures extends Fixture
         $manager->persist($noteGrancher2);
         $manager->persist($noteBordin1);
         $manager->persist($noteBordin2);
+        $manager->persist($admin);
 
 
 

@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminController!{% endblock %}
+
+{% block body %}
+
+
+<div class="example-wrapper">
+    <a href="{{ path('app_logout') }}">Se deconnecter</a>
+    <h1>Hello admin! ✅</h1>
+    <ul>
+        <li><a href="{{ path('adminNewUser') }}">Ajouter un utilisateur</a></li>
+        <li><a href="{{ path('adminNewFormation') }}">Ajouter une formation</a></li>
+        <li><a href="{{ path('adminNewMatiere') }}">Ajouter une matière</a></li>
+        <li><a href="{{ path('adminNewNote') }}">Ajouter une note</a></li>
+    </ul>
+    
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminController!
+{% endblock %}
+
+{% block body %}
+	<a href="{{ path('adminHome') }}">Retour a l'accueil admin</a>
+	<h1>Ajouter une matière</h1>
+	<form action="{{ path('adminHome') }}" method="post">
+		{{ form_start(form) }}
+		{{ form_widget(form) }}
+		<input type="submit">
+		{{ form_end(form) }}
+	</form>
+
+{% endblock %}

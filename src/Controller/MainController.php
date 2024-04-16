@@ -33,6 +33,8 @@ class MainController extends AbstractController
                 return $this->redirectToRoute('tuteurHome');
             case 'ROLE_APPRENANT':
                 return $this->redirectToRoute('apprenantHome');
+            case 'ROLE_ADMIN':
+                return $this->redirectToRoute('adminHome');
         }
         return $this->redirectToRoute('error');
     }
