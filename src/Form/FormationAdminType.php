@@ -17,8 +17,9 @@ class FormationAdminType extends AbstractType
             ->add('nom')
             ->add('matieres', EntityType::class, [
                 'class' => Matiere::class,
-'choice_label' => 'nom',
-'multiple' => true,
+                'choice_label' => 'nom',
+                'multiple' => true,
+                'by_reference' => false,
             ])
         ;
     }

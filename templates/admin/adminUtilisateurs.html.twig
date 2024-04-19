@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+List of Users
+{% endblock %}
+
+{% block body %}
+<a href="{{ path('adminHome') }}">Retour a l'accueil</a>
+	<h1>Liste des utilisateurs</h1>
+	<table>
+		<tr>
+			<th>Nom</th>
+			<th>Prenom</th>
+			<th>Email</th>
+		</tr>
+		{% for utilisateur in utilisateurs %}
+			<tr>
+				<td>{{ utilisateur.nom }}</td>
+				<td>{{ utilisateur.prenom }}</td>
+				<td>{{ utilisateur.email }}</td>
+				<td><a href="{{ path('adminModifierUtilisateur', {'utilisateurId': utilisateur.id}) }}">Modifier (TODO)</a></td>
+				<td><a href="{{ path('adminSupprimerUtilisateur', {'utilisateurId': utilisateur.id}) }}">Supprimer (TODO)</a></td>
+			</tr>
+		{% endfor %}
+	</table>
+
+
+{% endblock %}

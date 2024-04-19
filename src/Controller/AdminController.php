@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Note;
 use App\Entity\Matiere;
 use App\Entity\Formation;
+use App\Form\MatiereType;
 use App\Entity\Utilisateur;
 use App\Form\NoteAdminType;
 use Psr\Log\LoggerInterface;
@@ -21,53 +22,50 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AdminController extends AbstractController
 {
+    //PAGE_ACCUEIL_ADMIN
     #[IsGranted("ROLE_ADMIN")]
     #[Route('/admin', name: 'adminHome')]
-    public function AdminHome(EntityManagerInterface $entityManager, Request $request): Response
+    public function AdminHome(): Response
     {
         return $this->render('admin/adminHome.html.twig');
     }
 
+    //PAGE_AJOUT_USER
     #[IsGranted("ROLE_ADMIN")]
-    #[Route('/admin/user', name: 'adminNewUser')]
-    public function AdminNewUser(EntityManagerInterface $entityManager, Request $request, LoggerInterface $logger, UserPasswordHasherInterface $passwordHasher): Response
+    #[Route('/admin/new/Utilisateur', name: 'adminNewUtilisateur')]
+    public function AdminNewUtilisateur(EntityManagerInterface $entityManager, Request $request, UserPasswordHasherInterface $passwordHasher): Response
     {
+        //Créer un nouvel utilisateur
         $utilisateur = new Utilisateur();
+        //Créer un formulaire de type utilisateur
         $form = $this->createForm(UtilisateurAdminType::class, $utilisateur);
-        //envoyer le formulaire et traiter l'ajout
+        //Récuperer le formulaire rempli
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                //Get the data from the form
-                $utilisateur = $form->getData();
-                
-                // Get and hash the password
-                $hashedPassword = $passwordHasher->hashPassword($utilisateur, $utilisateur->getPassword());
-                // Set the hashed password
-                $utilisateur->setPassword($hashedPassword);
-
-                // Persist the user to the database
-                $entityManager->persist($utilisateur);
-                $entityManager->flush();
-                return $this->redirectToRoute('adminHome');
-            } catch (\Exception $e) {
-                // Log any exceptions that occur during entity persistence
-                $logger->error('Error occurred while persisting utilisateur: ' . $e->getMessage());
-            }
+            //On recupere les donnée du formulaire
+            $utilisateur = $form->getData();
+            // On hash le mot de passe
+            $hashedPassword = $passwordHasher->hashPassword($utilisateur, $utilisateur->getPassword());
+            // On change le mot de passe de l'utilisateur
+            $utilisateur->setPassword($hashedPassword);
+            // On enregistre l'utilisateur
+            $entityManager->persist($utilisateur);
+            $entityManager->flush();
+            return $this->redirectToRoute('adminHome');
         }
 
-        return $this->render('admin/adminNewUser.html.twig', [
+        return $this->render('admin/adminNewUtilisateur.html.twig', [
             'form' => $form->createView()
         ]);
     }
 
+    //PAGE_AJOUT_FORMATION
     #[IsGranted("ROLE_ADMIN")]
-    #[Route('/admin/formation', name: 'adminNewFormation')]
+    #[Route('/admin/new/Formation', name: 'adminNewFormation')]
     public function AdminNewFormation(EntityManagerInterface $entityManager, Request $request): Response
     {
         $formation = new Formation();
         $form = $this->createForm(FormationAdminType::class, $formation);
-        //envoyer le formulaire et traiter l'ajout
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $formation = $form->getData();
@@ -81,8 +79,9 @@ class AdminController extends AbstractController
         ]);
     }
 
+    //PAGE_AJOUT_MATIERE
     #[IsGranted("ROLE_ADMIN")]
-    #[Route('/admin/matiere', name: 'adminNewMatiere')]
+    #[Route('/admin/new/Matiere', name: 'adminNewMatiere')]
     public function AdminNewMatiere(EntityManagerInterface $entityManager, Request $request): Response
     {
         $matiere = new Matiere();
@@ -101,8 +100,9 @@ class AdminController extends AbstractController
         ]);
     }
 
+    //PAGE_AJOUT_NOTE
     #[IsGranted("ROLE_ADMIN")]
-    #[Route('/admin/note', name: 'adminNewNote')]
+    #[Route('/admin/new/Note', name: 'adminNewNote')]
     public function AdminNewNote(EntityManagerInterface $entityManager, Request $request): Response
     {
         $note = new Note();
@@ -121,10 +121,241 @@ class AdminController extends AbstractController
         ]);
     }
 
+    //LISTE DES UTILISATEURS
     #[IsGranted("ROLE_ADMIN")]
-    #[Route('/adminSuccess', name: 'adminSuccess')]
-    public function AdminSuccess(): Response
+    #[Route('/admin/utilisateurs', name: 'adminUtilisateurs')]
+    public function AdminUtilisateurs(EntityManagerInterface $entityManager, Request $request): Response
     {
-        return $this->render('admin/adminSuccess.html.twig', []);
+        $utilisateurs = $entityManager->getRepository(Utilisateur::class)->findBy([], ['nom' => 'ASC']);
+        return $this->render('admin/adminUtilisateurs.html.twig', [
+            'utilisateurs' => $utilisateurs
+        ]);
+    }
+
+    //LISTE DES FORMATIONS
+    #[IsGranted("ROLE_ADMIN")]
+    #[Route('/admin/formations', name: 'adminFormations')]
+    public function AdminFormations(EntityManagerInterface $entityManager): Response
+    {
+        $formations = $entityManager->getRepository(Formation::class)->findBy([], ['nom' => 'ASC']);;
+        return $this->render('admin/adminFormations.html.twig', [
+            'formations' => $formations
+        ]);
+    }
+
+    //LISTE DES MATIERES
+    #[IsGranted("ROLE_ADMIN")]
+    #[Route('/admin/matieres', name: 'adminMatieres')]
+    public function AdminMatiereList(EntityManagerInterface $entityManager): Response
+    {
+        $matieres = $entityManager->getRepository(Matiere::class)->findBy([], ['nom' => 'ASC']);
+        return $this->render('admin/adminMatieres.html.twig', [
+            'matieres' => $matieres
+        ]);
+    }
+
+    //LISTE DES NOTES
+    #[IsGranted("ROLE_ADMIN")]
+    #[Route('/admin/notes', name: 'adminNotes')]
+    public function AdminNoteList(EntityManagerInterface $entityManager): Response
+    {
+        $notes = $entityManager->getRepository(Note::class)->findBy([], ['evaluation' => 'ASC']);
+        return $this->render('admin/adminNotes.html.twig', [
+            'notes' => $notes
+        ]);
+    }
+
+    //MODIFIER_PROGRAMME
+    #[IsGranted("ROLE_ADMIN")]
+    #[Route('/admin/matieres/{matiereId}', name: 'adminModifierProgramme')]
+    public function AdminModifierProgramme(EntityManagerInterface $entityManager, $matiereId, Request $request): Response
+    {
+
+        //Recupérer matiereID, 
+        $matiereRepo = $entityManager->getRepository(Matiere::class);
+        $matiere = $matiereRepo->find($matiereId);
+        //Vérifier si la matiere existe
+        if (!$matiere) {
+            throw $this->createNotFoundException('Matiere not found');
+        }
+
+        //Générer le formulaire pour la matiere
+        $form = $this->createForm(MatiereType::class, $matiere);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $newMatiere = $form->getData();
+            $entityManager->persist($newMatiere);
+            $entityManager->flush();
+            return $this->redirectToRoute('adminMatieres');
+        }
+
+        //Afficher le formulaire de modification
+        return $this->render('admin/adminModifierProgramme.html.twig', [
+            'matiere' => $matiere,
+            'form' => $form->createView(),
+
+        ]);
+    }
+
+    //Modifier un utilisateur TODO
+    #[IsGranted("ROLE_ADMIN")]
+    #[Route('/admin/utilisateurs/{utilisateurId}', name: 'adminModifierUtilisateur')]
+    public function AdminModifierUtilisateur(EntityManagerInterface $entityManager, $utilisateurId, Request $request): Response
+    {
+
+        //Recupérer utilisateur , 
+        $utilisateurRepo = $entityManager->getRepository(Utilisateur::class);
+        $utilisateur = $utilisateurRepo->find($utilisateurId);
+        //Vérifier si la matiere existe
+        if (!$utilisateur) {
+            throw $this->createNotFoundException('Matiere not found');
+        }
+
+        //Générer le formulaire 
+        $form = $this->createForm(UtilisateurAdminType::class, $utilisateur);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // L'entité utilisateur est automatiquement mise à jour avec les données soumises
+            $entityManager->flush();
+
+            return $this->redirectToRoute('adminUtilisateurs');
+        }
+
+        //Afficher le formulaire de modification
+        return $this->render('admin/adminModifierUtilisateur.html.twig', [
+
+            'form' => $form->createView(),
+
+        ]);
+    }
+
+    #[IsGranted("ROLE_ADMIN")]
+    #[Route('/admin/utilisateurs/supprimer/{utilisateurId}', name: 'adminSupprimerUtilisateur')]
+    public function AdminSupprimerUtilisateur(EntityManagerInterface $entityManager, $utilisateurId, Request $request): Response
+    {
+        //Recupérer utilisateur , 
+        $utilisateurRepo = $entityManager->getRepository(Utilisateur::class);
+        $utilisateur = $utilisateurRepo->find($utilisateurId);
+        //Vérifier si la matiere existe
+        if (!$utilisateur) {
+            throw $this->createNotFoundException('Matiere not found');
+        }
+        //Supprimer l'utilisateur
+        $entityManager->remove($utilisateur);
+        $entityManager->flush();
+        $this->addFlash('success', 'Grade deleted successfully.');
+
+        //Afficher le formulaire de modification
+        return $this->redirectToRoute('adminUtilisateurs');
+    }
+
+    //Modifier une formation
+    #[IsGranted("ROLE_ADMIN")]
+    #[Route('/admin/formations/{formationId}', name: 'adminModifierFormation')]
+    public function AdminModifierFormation(EntityManagerInterface $entityManager, $formationId, Request $request): Response
+    {
+        //Recupérer formation , 
+        $formation = $entityManager
+            ->getRepository(Formation::class)
+            ->find($formationId);
+        //Vérifier si la matiere existe
+        if (!$formation) {
+            throw $this->createNotFoundException('Formation not found');
+        }
+
+        //Générer le formulaire 
+        $form = $this->createForm(FormationAdminType::class, $formation);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // L'entité utilisateur est automatiquement mise à jour avec les données soumises
+            $entityManager->persist($formation);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('adminFormations');
+        }
+
+        //Afficher le formulaire de modification
+        return $this->render('admin/adminModifierFormation.html.twig', [
+
+            'form' => $form->createView(),
+            'formation' => $formation
+
+        ]);
+    }
+
+    //Supprimer une formation
+    #[IsGranted("ROLE_ADMIN")]
+    #[Route('/admin/formations/supprimer/{formationId}', name: 'adminSupprimerFormation')]
+    public function AdminSupprimerFormation(EntityManagerInterface $entityManager, $formationId): Response
+    {
+        //Recupérer formation , 
+        $formation = $entityManager
+            ->getRepository(Formation::class)
+            ->find($formationId);
+        //Vérifier si la matiere existe
+        if (!$formation) {
+            throw $this->createNotFoundException('Formation not found');
+        }
+        //Supprimer la formation
+        $entityManager->remove($formation);
+        $entityManager->flush();
+        $this->addFlash('success', 'Formation deleted successfully.');
+
+        return $this->redirectToRoute('adminFormations');
+    }
+
+    //Modifier une note
+    #[IsGranted("ROLE_ADMIN")]
+    #[Route('/admin/notes/{noteId}', name: 'adminModifierNote')]
+    public function AdminModifierNote(EntityManagerInterface $entityManager, $noteId, Request $request): Response
+    {
+        //Recupérer formation , 
+        $note = $entityManager
+            ->getRepository(Note::class)
+            ->find($noteId);
+        //Vérifier si la matiere existe
+        if (!$note) {
+            throw $this->createNotFoundException('Note not found');
+        }
+
+        //Générer le formulaire 
+        $form = $this->createForm(NoteAdminType::class, $note);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // L'entité utilisateur est automatiquement mise à jour avec les données soumises
+            $entityManager->persist($note);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('adminNotes');
+        }
+
+        //Afficher le formulaire de modification
+        return $this->render('admin/adminModifierNote.html.twig', [
+
+            'form' => $form->createView(),
+            'note' => $note
+
+        ]);
+    }
+
+    //Supprimer une formation
+    #[IsGranted("ROLE_ADMIN")]
+    #[Route('/admin/notes/supprimer/{noteId}', name: 'adminSupprimerNote')]
+    public function AdminSupprimerNote(EntityManagerInterface $entityManager, $noteId): Response
+    {
+        //Recupérer formation , 
+        $note = $entityManager
+            ->getRepository(Note::class)
+            ->find($noteId);
+        //Vérifier si la matiere existe
+        if (!$note) {
+            throw $this->createNotFoundException('Formation not found');
+        }
+        //Supprimer la formation
+        $entityManager->remove($note);
+        $entityManager->flush();
+        $this->addFlash('success', 'Note deleted successfully.');
+
+        return $this->redirectToRoute('adminNotes');
     }
 }

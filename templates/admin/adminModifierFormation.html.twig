@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier une formation
+{% endblock %}
+
+{% block body %}
+	<h1>Formation</h1>
+	<h2>{{ formation.nom }}</h2>
+	<h1>Modifier le programme</h1>
+	<form action="{{ path('adminModifierFormation', {'formationId': formation.id}) }}" method="post">
+		{{ form_start(form) }}
+		{{ form_errors(form) }}
+		{{form_widget(form) }}
+		<input type="submit">
+		{{ form_end(form) }}
+	</form>
+	<a href="{{ path('adminFormations') }}"> Retour a la page formations</a><br>
+	<a href="{{ path('adminHome') }}">Retour à l'accueil admin</a>
+
+{% endblock %}

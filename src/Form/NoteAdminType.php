@@ -2,12 +2,13 @@
 
 namespace App\Form;
 
-use App\Entity\Matiere;
 use App\Entity\Note;
+use App\Entity\Matiere;
 use App\Entity\Utilisateur;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class NoteAdminType extends AbstractType
@@ -23,7 +24,12 @@ class NoteAdminType extends AbstractType
             ])
             ->add('apprenant', EntityType::class, [
                 'class' => Utilisateur::class,
-'choice_label' => 'nom',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->andWhere('u.roles LIKE :role')
+                        ->setParameter('role', '%"ROLE_APPRENANT"%');
+                },
+                'choice_label' => 'nom',
             ])
         ;
     }

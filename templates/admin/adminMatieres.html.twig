@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	List of Formations
+{% endblock %}
+
+{% block body %}
+	<a href="{{ path('adminHome') }}">Retour a l'accueil</a>
+	<h1>Liste des Matieres</h1>
+	<table>
+		<tr>
+			<th>Nom</th>
+			<th>Programme</th>
+		</tr>
+		{% for matiere in matieres  %}
+			<tr>
+				<td>{{ matiere.nom }}</td>
+				<td>
+					<a href="{{ path('adminModifierProgramme', {'matiereId': matiere.id})}}">
+						<button>Modifier le programme</button>
+					</a>
+				</td>
+				<td>
+					{{ matiere.programme }}
+				</td>
+
+			</tr>
+		{% endfor %}
+	</table>
+
+
+{% endblock %}

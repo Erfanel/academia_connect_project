@@ -4,6 +4,7 @@
 {% endblock %}
 
 {% block body %}
+	<a href="{{ path('app_logout') }}">Se deconnecter</a>
 	<h1>Bienvenue {{ app.user.prenom }} {{ app.user.nom }}</h1>
 	<h2>Vos formations</h2>
 	<ul>

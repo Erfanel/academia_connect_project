@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	List of Formations
+{% endblock %}
+
+{% block body %}
+	<a href="{{ path('adminHome') }}">Retour a l'accueil</a>
+	<h1>Liste des formations</h1>
+	<table>
+		<tr>
+			<th>Nom</th>
+			<th>Matières</th>
+		</tr>
+		{% for formation in formations %}
+			<tr>
+				<td>{{ formation.nom }}</td>
+				<td>
+					{% for matiere in formation.matieres %}
+						{{ matiere.nom }}
+					{% endfor %}
+				</td>
+				<td><a href="{{ path('adminModifierFormation', {'formationId': formation.id}) }}">Modifier</a></td>
+				<td><a href="{{ path('adminSupprimerFormation', {'formationId': formation.id}) }}">Supprimer</a></td>
+
+			</tr>
+		{% endfor %}
+	</table>
+
+
+{% endblock %}

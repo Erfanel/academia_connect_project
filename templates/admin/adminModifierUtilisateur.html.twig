@@ -1,12 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AdminController!
+{% block title %}
+Modifier l'utilisateur
 {% endblock %}
 
 {% block body %}
 	<a href="{{ path('adminHome') }}">Retour a l'accueil admin</a>
-	<h1>Ajouter un utilisateur</h1>
-	<form action="{{ path('adminNewUser') }}" method="post">
+	<h1>Modifier un utilisateur</h1>
+	<form action="{{ path('adminNewUtilisateur') }}" method="post">
 		{{ form_start(form) }}
 		{{ form_widget(form) }}
 		<input type="submit">

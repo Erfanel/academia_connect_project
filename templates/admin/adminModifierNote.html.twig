@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier la note
+{% endblock %}
+
+{% block body %}
+	<a href="{{ path('adminNotes') }}">Retour a la page des notes</a>
+	<h1>Modifier la note </h1>
+	<form action="{{ path('adminModifierNote', {'noteId': note.id}) }}" method="post">
+		{{ form_start(form) }}
+		{{ form_errors(form) }}
+		{{form_widget(form)}}
+		<input type="submit">
+		{{ form_end(form) }}
+	</form>
+	<a href="{{ path('adminNotes') }}"> Retour a la page des notes</a><br>
+	<a href="{{ path('adminHome') }}">Retour à l'accueil admin</a>
+
+{% endblock %}

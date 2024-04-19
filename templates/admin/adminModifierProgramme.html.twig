@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier le programme
+{% endblock %}
+
+{% block body %}
+	<h1>Matiere</h1>
+	<h2>{{ matiere.nom }}</h2>
+	<h1>Modifier le programme</h1>
+	<form action="{{ path('adminModifierProgramme', {'matiereId': matiere.id}) }}" method="post">
+		{{ form_start(form) }}
+		{{ form_errors(form) }}
+		{{ form_row(form.programme) }}
+        <div style="display: none;">
+		{{ form_row(form.formateur) }}
+		{{ form_row(form.formation) }}
+        {{ form_row(form.nom) }}
+		</div>
+		<input type="submit">
+		{{ form_end(form) }}
+	</form>
+	<a href="{{ path('adminMatieres') }}"> Retour a la page {{ matiere.nom }}</a><br>
+	<a href="{{ path('adminHome') }}">Retour à l'accueil formateur</a>
+
+{% endblock %}
