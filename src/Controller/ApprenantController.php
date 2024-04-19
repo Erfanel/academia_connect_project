@@ -36,7 +36,24 @@ class ApprenantController extends AbstractController
 
     //PROGRAMME DE LA MATIERE
     #[IsGranted("ROLE_APPRENANT")]
-    #[Route('/Apprenant/programme/{matiereId}', name: 'apprenantProgramme')]
+    #[Route('/Apprenant/matieres', name: 'apprenantMatieres')]
+    public function ApprenantMatieres(): Response
+    {
+        $user = $this->getUser();
+        $formation = $user->getFormationSuivie();
+        $matieres = $formation->getMatieres();
+        
+
+        return $this->render('main/apprenant/apprenantMatieres.html.twig', [
+            'user' => $user,
+            'formation' => $formation,
+            'matieres' => $matieres,
+        ]);
+    }
+
+    //PROGRAMME DE LA MATIERE
+    #[IsGranted("ROLE_APPRENANT")]
+    #[Route('/Apprenant/matieres/{matiereId}', name: 'apprenantProgramme')]
     public function ApprenantProgramme($matiereId, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();

@@ -1,28 +1,29 @@
-{% extends 'base.html.twig' %}
+{% extends 'tuteurBase.html.twig' %}
 
 {% block title %}Profil apprenant
 {% endblock %}
 
-{% block body %}
-	<h1>Profil de
-		{{ apprenant.prenom }}
-		{{ apprenant.nom }}</h1>
-	<a href="{{ path('tuteurNotes', {'apprenantId': apprenant.id })}}">Voir les notes</a>
-	<h2>Matières</h2>
-	<table>
+{% block main %}
+	<div  class="container rounded w-50 d-flex flex-column justify-content-center text-center gap-5">
+		<h1 class="rounded bg-dark text-light mt-5 p-3 ">Profil de
+			{{ apprenant.prenom }}
+			{{ apprenant.nom }}</h1>
+		<div>
+				<h2 class=" rounded  text-center bg-warning p-3">Mes notes</h2>
+				<a class="btn btn-dark btn-lg w-50 m-auto" href="{{ path('tuteurNotes', {'apprenantId': apprenant.id })}}">
+					Voir les notes de {{ apprenant.prenom }} {{ apprenant.nom }}
+				</a>
+			</div>
 
-		{% for matiere in matieres %}
-			<tr>
-				<td>
-					{{ matiere.nom }}
-				</td>
-				<td>
-					<a href="{{ path('tuteurMatiere', {'matiereId': matiere.id, 'apprenantId': apprenant.id }) }}">
-						<button>Voir le programme</button>
-					</a>
-				</td>
-			</tr>
-		{% endfor %}
-	</table>
-	<a href="{{ path('tuteurHome') }}">Retour à la liste des étudiants</a>
+
+		<div>
+			<h2 class=" rounded bg-warning p-3 ">Liste de matières</h2>
+	
+			<div class="list-group">
+				{% for matiere in matieres %}
+					<a href="{{ path('tuteurMatiere', {'matiereId': matiere.id, 'apprenantId': apprenant.id }) }}" class="list-group-item list-group-item-action">{{ matiere.nom }}</a>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
 {% endblock %}

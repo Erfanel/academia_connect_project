@@ -1,17 +1,27 @@
-{% extends 'base.html.twig' %}
+{% extends 'tuteurBase.html.twig' %}
 
 {% block title %}Accueil Tuteur
 {% endblock %}
 
-{% block body %}
-<a href="{{ path('app_logout') }}">Se deconnecter</a>
-<h1>Bonjour {{ user.prenom }} {{ user.nom }}</h1>
-	<h2>Vos apprenants</h2>
-	<ul>
-		{% for apprenant in apprenants %}
-		<li><a href="{{ path('tuteurApprenant', {'apprenantId': apprenant.id}) }}">{{ apprenant.nom }} {{ apprenant.prenom }}</a></li>
-		{% endfor %}
+{% block main %}
 
-	</ul>
+	<div class="container rounded w-50 d-flex flex-column justify-content-center text-center gap-5">
 
-	{% endblock %}
+		<h1 class="rounded bg-dark text-light mt-5 p-3 ">Bonjour
+			{{ user.prenom }}
+			{{ user.nom }}</h1>
+
+
+		<div>
+			<h2 class="rounded  text-center bg-warning mb-3 p-3">Vos apprenants</h2>
+			<div class="list-group">
+				{% for apprenant in apprenants %}
+					<a href="{{ path('tuteurApprenant', {'apprenantId': apprenant.id}) }}" class="list-group-item list-group-item-action">
+						{{ apprenant.nom }}
+						{{ apprenant.prenom }}
+					</a>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

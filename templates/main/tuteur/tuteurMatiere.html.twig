@@ -1,16 +1,21 @@
-{% extends 'base.html.twig' %}
+{% extends 'tuteurBase.html.twig' %}
 
 {% block title %}Matière Selectionnée
 {% endblock %}
 
-{% block body %}
+{% block main %}
 
-	<h1>{{ matiere.nom }}</h1>
-	<h2>Programme</h2>
-	<p>{{ matiere.programme }}</p>
-	<a href="{{ path('tuteurApprenant', {'apprenantId': apprenant.id})}}">Retour au profil de {{ apprenant.prenom }} {{ apprenant.nom }}</a>
-	<br>
-	<a href="{{ path('tuteurHome') }}">Retour à l'accueil tuteur</a>
-
+	<div class="container rounded d-flex flex-column justify-content-center text-center gap-5">
+		<h1 class="rounded bg-dark text-light mt-5 p-3 w-50 m-auto ">
+				{{ matiere.nom }}</h1>
+		<div>
+			<h2 class="rounded  text-center bg-warning mb-3 p-3">Programme</h2>
+			<p class="text">{{ matiere.programme }}</p>
+			<a href="{{ path('tuteurApprenant', {'apprenantId': apprenant.id})}}">Retour au profil de {{ apprenant.prenom }} {{ apprenant.nom }}</a>
+			<br>
+		</div>
+		<a href="{{ path('tuteurHome') }}">Retour à l'accueil tuteur</a>
+	
+	</div>
 
 {% endblock %}

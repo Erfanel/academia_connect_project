@@ -1,33 +1,42 @@
-{% extends 'base.html.twig' %}
+{% extends 'apprenantBase.html.twig' %}
 
 {% block title %}Accueil Formateur
 {% endblock %}
 
-{% block body %}
-	<a href="{{ path('app_logout') }}">Se deconnecter</a>
-	<h1>Bonjour
-		{{ user.prenom }}
-		{{ user.nom }}</h1>
-	<h2>Mes notes</h2>
+{% block main %}
 
-	<a href="{{path('apprenantNotes')}}">
-		Voir mes notes
-	</a>
-	<h2>Mes matières pour la formation
-		{{formation.nom}}</h2>
-	<table>
-		{% for matiere in matieres %}
-			<tr>
-				<td>{{matiere.nom}}
-				</td>
-				<td>
-					<a href="{{path('apprenantProgramme', {'matiereId': matiere.id})}}">
-						Voir le programme
-					</a>
-				</td>
-			</tr>
-		{% endfor %}
 
-	</table>
-	<a href="{{path('app_logout')}}">Se deconnecter</a>
-{% endblock %}
+	<div class="container rounded w-50 d-flex flex-column justify-content-center text-center gap-5">
+		<div class=" rounded bg-dark text-light mt-5 p-3 ">
+			<h1>Bonjour
+				{{ user.prenom }}
+				{{ user.nom }}</h1>
+
+		</div>
+
+		<div>
+			<h2 class=" rounded  text-center bg-warning">Mes notes</h2>
+			<a class="btn btn-dark btn-lg w-25 m-auto" href="{{path('apprenantNotes')}}">
+				Voir mes notes
+			</a>
+		</div>
+
+		<div>
+			<h2 class=" rounded bg-warning ">Mes matières</br>
+			pour la formation
+			{{formation.nom}}</h2>
+		<table class="rounded bg-light m-auto w-50">
+			{% for matiere in matieres %}
+				<tr>
+					<td>{{matiere.nom}}
+					</td>
+					<td>
+						<a href="{{path('apprenantProgramme', {'matiereId': matiere.id})}}">
+							<button class="btn btn-dark btn-md">Voir le programme</button>
+						</a>
+					</td>
+				</tr>
+			{% endfor %}
+		</table>
+	</div>
+</div>{% endblock %}
