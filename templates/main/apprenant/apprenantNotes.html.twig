@@ -1,30 +1,32 @@
 {% extends 'apprenantBase.html.twig' %}
 
-{% block title %}
-{% endblock %}
+{% block title %}{% endblock %}
 
 {% block main %}
-	<div class="container-fluid vh-100">
-	<div class="container-l   pt-5 mt-1 text-center ">
-
-	<h1 class="container rounded bg-dark text-light w-50 mt-1 p-3">Les notes de {{ user.prenom }} {{ user.nom }} </h1>
-	<table class="table table-striped w-50 rounded m-auto">
-		<thead>
-			<tr>
-				<th>Matière</th>
-				<th>Evaluation</th>
-				<th>Note</th>
-			</tr>
-		</thead>
-		<tbody class="table-group-divider">
-			{% for note in notes %}
+	<a href="{{path('apprenantHome')}}" class="btn btn-secondary btn-sm m-2">
+		Retour à l'accueil</a>
+	<div class="container-l text-center d-flex flex-column gap-3 ">
+		<h1 class="container rounded bg-dark text-light w-50 p-3">Les notes de
+			{{ user.prenom }}
+			{{ user.nom }}
+		</h1>
+		<table class="table table-striped w-50 rounded m-auto">
+			<thead>
 				<tr>
-					<td>{{note.matiere.nom}}</td>
-					<td>{{note.evaluation}}</td>
-					<td>{{note.note}}</td>
+					<th>Matière</th>
+					<th>Evaluation</th>
+					<th>Note</th>
 				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-
+			</thead>
+			<tbody class="table-group-divider">
+				{% for note in notes %}
+					<tr>
+						<td>{{note.matiere.nom}}</td>
+						<td>{{note.evaluation}}</td>
+						<td>{{note.note}}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
 {% endblock %}

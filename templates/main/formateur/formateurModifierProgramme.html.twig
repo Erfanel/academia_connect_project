@@ -1,25 +1,28 @@
-{% extends 'base.html.twig' %}
+{% extends 'formateurBase.html.twig' %}
 
 {% block title %}Modifier le programme
 {% endblock %}
 
-{% block body %}
-	<h1>Matiere</h1>
-	<h2>{{ matiere.nom }}</h2>
-	<h1>Modifier le programme</h1>
-	<form action="{{ path('formateurModifierProgramme', {'matiereId': matiere.id, 'formationId': formation.id}) }}" method="post">
-		{{ form_start(form) }}
-		{{ form_errors(form) }}
-		{{ form_row(form.programme) }}
-        <div style="display: none;">
-		{{ form_row(form.formateur) }}
-		{{ form_row(form.formation) }}
-        {{ form_row(form.nom) }}
-		</div>
-		<input type="submit">
-		{{ form_end(form) }}
-	</form>
-	<a href="{{ path('formateurMatiere', {'matiereId': matiere.id, 'formationId': formation.id}) }}"> Retour a la page {{ matiere.nom }}</a><br>
-	<a href="{{ path('formateurHome') }}">Retour à l'accueil formateur</a>
+{% block main %}
+	<a href="{{ path('formateurMatiere', {'matiereId': matiere.id, 'formationId': formation.id}) }}" class="btn btn-secondary btn-sm m-2">Retour à la page
+		{{ matiere.nom }}</a>
+
+	<div class="container rounded  gap-3">
+		<h1 class="rounded bg-dark text-center text-light p-3  w-50 m-auto mb-3">{{matiere.nom}}</h1>
+
+		<form action="{{ path('formateurModifierProgramme', {'matiereId': matiere.id, 'formationId': formation.id}) }}" method="post" >
+			{{ form_start(form) }}
+			{{ form_errors(form) }}
+			{{ form_row(form.programme) }}
+			<div style="display: none;">
+				{{ form_row(form.formateur) }}
+				{{ form_row(form.formation) }}
+				{{ form_row(form.nom) }}
+			</div>
+			<input type="submit" value="Valider" class="btn btn-success">
+			{{ form_end(form) }}
+		</form>
+	</div>
+	
 
 {% endblock %}

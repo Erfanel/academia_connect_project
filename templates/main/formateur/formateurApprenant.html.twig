@@ -1,38 +1,42 @@
-{% extends 'base.html.twig' %}
+{% extends 'formateurBase.html.twig' %}
 
 {% block title %}Profil de l'apprenant{% endblock %}
 
-{% block body %}
-    <h1>{{ apprenant.prenom }} {{ apprenant.nom }} </h1>
-    <p>{{ apprenant.email }}</p>
-
-    <h1>Notes</h1>
-    <a href="{{ path('formateurCreerNote', {'apprenantId': apprenant.id, 'formationId': apprenant.formationSuivie.id})}}">Ajouter une note</a>
-    <table>
-        <tr>
-            <th>Evaluation</th>
-            <th>Note</th>
-        </tr>
-        {% for note in apprenant.notes %}
-        <tr>
-            <td>{{ note.matiere.nom }}</td>
-            <td>{{ note.evaluation }}</td>
-            <td>{{ note.note }}</td>
-            <td> 
-                <a href="{{ path('formateurModifierNote', {'noteId': note.id, 'formationId': apprenant.formationSuivie.id, 'apprenantId': apprenant.id}) }}">Modifier</a>
-            </td>
-            <td> 
-                <form action="{{ path('formateurSupprimerNote', {'noteId': note.id, 'formationId': apprenant.formationSuivie.id, 'apprenantId': apprenant.id}) }}" method="post">
-                <input type="submit" value="Supprimer"></form>
-            </td>
-
-            
-            
-        </tr>
-        {% endfor %}
-    </table>
-
-    <a href="{{ path('formateurHome') }}">Retour à l'accueil formateur</a> <br>
-    <a href="{{ path('formateurFormation', {'formationId': apprenant.formationSuivie.id}) }}">Retour à {{apprenant.formationSuivie.nom}}</a>
+{% block main %}
+      <a href="{{ path('formateurFormation', {'formationId': apprenant.formationSuivie.id}) }}" class="btn btn-secondary btn-sm m-2">Retour à {{apprenant.formationSuivie.nom}}</a>
+    <div class="container rounded w-50 d-flex flex-column justify-content-center text-center gap-3">
+        <div class="rounded bg-dark text-light p-3 ">
+            <h1  >{{ apprenant.prenom }} {{ apprenant.nom }} </h1>
+            <h2>{{ apprenant.email }}</h2>
+        </div>
+        
+        <a href="{{ path('formateurCreerNote', {'apprenantId': apprenant.id, 'formationId': apprenant.formationSuivie.id})}}" class="btn btn-success">Ajouter une note</a>
+        <table class="table">
+            <tr>
+                <th>Matière</th>
+                <th>Evaluation</th>
+                <th>Note</th>
+                <th></th>
+                <th></th>
+            </tr>
+            {% for note in apprenant.notes %}
+            <tr>
+                <td>{{ note.matiere.nom }}</td>
+                <td>{{ note.evaluation }}</td>
+                <td>{{ note.note }}</td>
+                <td> 
+                    <a href="{{ path('formateurModifierNote', {'noteId': note.id, 'formationId': apprenant.formationSuivie.id, 'apprenantId': apprenant.id}) }}" class="btn btn-secondary">Modifier</a>
+                </td>
+                <td> 
+                    <form action="{{ path('formateurSupprimerNote', {'noteId': note.id, 'formationId': apprenant.formationSuivie.id, 'apprenantId': apprenant.id}) }}" method="post">
+                    <input type="submit" value="Supprimer" class="btn btn-danger"></form>
+                </td>
+    
+                
+                
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 
 {% endblock %}

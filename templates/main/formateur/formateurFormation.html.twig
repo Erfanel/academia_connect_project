@@ -1,28 +1,44 @@
-{% extends 'base.html.twig' %}
+{% extends 'formateurBase.html.twig' %}
 
 {% block title %}Formations Formateur
 {% endblock %}
 
-{% block body %}
-	<h1>{{formation.nom}}</h1>
-	<h2>Matières</h2>
-	<ul>
-		{% for matiere in matieres %}
-			<li>
-				<a href="{{path('formateurMatiere', {'matiereId': matiere.id, 'formationId': formation.id})}}">{{ matiere.nom }}</a>
-			</li>
-		{% endfor %}
-	</ul>
+{% block main %}
+	<a href="{{ path('formateurHome') }}" class="btn btn-secondary btn-sm m-2">Retour à l'accueil</a>
+
+	<div class="m-auto text-center m-auto ">
+		<h1 class="rounded bg-dark text-light p-3 w-50 mx-auto ">{{formation.nom}}</h1>
+
+		<div class="row m-auto container mt-3">
+			<div class="col">
+				<h2 class="rounded  text-center bg-warning p-3">Matières</h2>
+				<div class="row row-cols-3">
+					{% for matiere in matieres %}
+
+						<div class="card p-5">
+							<h3>{{ matiere.nom }}</h3>
+							<a href="{{path('formateurMatiere', {'matiereId': matiere.id, 'formationId': formation.id})}}" class="btn btn-warning mt-3">Voir le programme
+							</a>
+						</div>
+
+					{% endfor %}
+				</div>
+			</div>
 
 
-	<h1>Apprenants</h1>
-	<ul>
-		{% for apprenant in apprenants %}
-			<li>
-				<a href="{{path('formateurApprenant', {'apprenantId': apprenant.id, 'formationId': formation.id})}}">{{ apprenant.nom }}</a>
-			</li>
-		{% endfor %}
-	</ul>
+			<div class="col-3">
+				<h2 class="rounded  text-center bg-warning p-3">Apprenants</h2>
+				<div class="row row-cols-1 gap-3 bg-light p-3 rounded">
+					{% for apprenant in apprenants %}
 
-	<a href="{{ path('formateurHome') }}">Retour à la liste des formations</a>
+						<a href="{{path('formateurApprenant', {'apprenantId': apprenant.id, 'formationId': formation.id})}}" class="col btn btn-dark rounded-pill">{{ apprenant.nom }}
+							{{ apprenant.prenom }}</a>
+
+					{% endfor %}
+				</div>
+			</div>
+
+		</div>
+
+	</div>
 {% endblock %}

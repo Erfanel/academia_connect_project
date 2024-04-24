@@ -1,42 +1,32 @@
-{% extends 'base.html.twig' %}
+{% extends 'adminBase.html.twig' %}
 
 {% block title %}Hello AdminController!
 {% endblock %}
 
-{% block body %}
+{% block main %}
+	<h1 class="rounded bg-dark text-light mt-5 p-3 w-50 m-auto text-center" >Hello admin!</h1>
+	<div class="container rounded d-flex justify-content-center text-center gap-4 mt-3">
+		<section>
+			<h2 class="rounded  text-center bg-warning mb-3 p-3">Ajouter des données</h2>
+			<div class="list-group">
+				<a href="{{ path('adminNewUtilisateur') }}" class="list-group-item list-group-item-action">Ajouter un utilisateur</a>
 
+				<a href="{{ path('adminNewFormation') }}" class="list-group-item list-group-item-action">Ajouter une formation</a>
 
-	<div class="example-wrapper">
-		<a href="{{ path('app_logout') }}">Se deconnecter</a>
-		<h1>Hello admin! ✅</h1>
-		<h2>Ajouter des données</h2>
-		<ul>
-			<li>
-				<a href="{{ path('adminNewUtilisateur') }}">Ajouter un utilisateur</a>
-			</li>
-			<li>
-				<a href="{{ path('adminNewFormation') }}">Ajouter une formation</a>
-			</li>
-			<li>
-				<a href="{{ path('adminNewMatiere') }}">Ajouter une matière</a>
-			</li>
-			<li>
-				<a href="{{ path('adminNewNote') }}">Ajouter une note</a>
-			</li>
-		</ul>
-		<h2>Consulter les données</h2>
-		<ul>
-			<li>
-				<a href="{{ path('adminUtilisateurs') }}">Modifier un utilisateur</a>
-			</li>
-			<li>
-				<a href="{{ path('adminFormations') }}">Modifier une formation</a>
-			</li>
-            <li>
-                <a href="{{ path('adminMatieres') }}">Modifier une matière</a>
-            </li>
-            <li>
-                <a href="{{ path('adminNotes') }}">Modifier une note</a>
-            </li>
+				<a href="{{ path('adminNewMatiere') }}" class="list-group-item list-group-item-action">Ajouter une matière</a>
 
-		{% endblock %}
+				<a href="{{ path('adminNewNote') }}" class="list-group-item list-group-item-action">Ajouter une note</a>
+
+			</div>
+		</section>
+		<section>
+			<h2 class="rounded  text-center bg-warning mb-3 p-3">Modifier les données</h2>
+			<div class="list-group">
+				<a href="{{ path('adminUtilisateurs') }}" class="list-group-item list-group-item-action">Modifier un utilisateur</a>
+				<a href="{{ path('adminFormations') }}" class="list-group-item list-group-item-action">Modifier une formation</a>
+				<a href="{{ path('adminMatieres') }}" class="list-group-item list-group-item-action">Modifier une matière</a>
+				<a href="{{ path('adminNotes') }}" class="list-group-item list-group-item-action">Modifier une note</a>
+			</div>
+		</section>
+	</div>
+{% endblock %}

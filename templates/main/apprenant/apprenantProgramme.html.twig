@@ -1,12 +1,20 @@
-{% extends 'base.html.twig' %}
+{% extends 'apprenantBase.html.twig' %}
 
-{% block title %}Accueil Formateur
+{% block title %}Programme
 {% endblock %}
 
-{% block body %}
-	<h1>Programme pour la matière {{ matiere.nom }}</h1>
-	<p>{{matiere.programme}}</p>
+{% block main %}
 
-	<a href="{{ path('apprenantHome') }}">Retour à l'accueil</a>
+	<a href="{{ path('apprenantHome') }}" class="btn btn-secondary btn-sm m-2">Retour à l'accueil</a>
+	<div class="container rounded d-flex flex-column justify-content-center text-center gap-3">
+
+		<h1 class="rounded bg-dark text-light p-3 w-50 m-auto ">
+			{{ matiere.nom }}</h1>
+		<div>
+			<h2 class="rounded  text-center bg-warning mb-3 p-3">Programme</h2>
+			<p class="rounded bg-light text-dark p-3">{{ matiere.programme }}</p>
+		</div>
+	</div>
+
 
 {% endblock %}
