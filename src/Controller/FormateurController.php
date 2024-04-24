@@ -20,6 +20,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class FormateurController extends AbstractController
 {
 
+    //ACCUEIL FORMATEUR & LISTE FORMATIONS
     #[IsGranted("ROLE_FORMATEUR")]
     #[Route('/Formateur', name: 'formateurHome')]
     public function FormateurHome(): Response
@@ -38,6 +39,7 @@ class FormateurController extends AbstractController
         ]);
     }
 
+    //FORMATION DETAIL & LISTE APPRENANTS
     #[IsGranted("ROLE_FORMATEUR")]
     #[Route('/Formateur/{formationId}/', name: 'formateurFormation')]
     public function FormateurFormation($formationId, EntityManagerInterface $entityManager): Response
@@ -57,7 +59,7 @@ class FormateurController extends AbstractController
         ]);
     }
 
-    //APPRENANT
+    //APPRENANT DETAIL
     #[IsGranted("ROLE_FORMATEUR")]
     #[Route('/Formateur/{formationId}/apprenant/{apprenantId}/', name: 'formateurApprenant')]
     public function FormateurApprenant($formationId, $apprenantId, EntityManagerInterface $entityManager): Response
@@ -73,7 +75,7 @@ class FormateurController extends AbstractController
         ]);
     }
 
-    //MATIERE
+    //MATIERE DETAIL
     #[IsGranted("ROLE_FORMATEUR")]
     #[Route('/Formateur/{formationId}/matiere/{matiereId}', name: 'formateurMatiere')]
     public function FormateurMatiere($formationId, $matiereId, EntityManagerInterface $entityManager): Response
@@ -94,7 +96,7 @@ class FormateurController extends AbstractController
         ]);
     }
 
-    //CREER NOTE
+    //NOTE_ADD
     #[IsGranted("ROLE_FORMATEUR")]
     #[Route('/Formateur/{formationId}/apprenant/{apprenantId}/creerNote', name: 'formateurCreerNote')]
     public function FormateurCreerNote(EntityManagerInterface $entityManager, Request $request, $formationId, $apprenantId): Response
@@ -121,32 +123,11 @@ class FormateurController extends AbstractController
         ]);
     }
 
-    //SUPPRIMER NOTE
-    #[IsGranted("ROLE_FORMATEUR")]
-    #[Route('/Formateur/formation/{formationId}/apprenant/{apprenantId}/SupprimerNote/{noteId}', name: 'formateurSupprimerNote')]
-    public function FormateurSupprimerNote(EntityManagerInterface $entityManager, $noteId, $formationId, $apprenantId): Response
-    {
 
-        //Recupérer noteID, 
-        $noteRepo = $entityManager->getRepository(Note::class);
-        $note = $noteRepo->find($noteId);
-        //Vérifier si la note existe
-        if (!$note) {
-            throw $this->createNotFoundException('Grade not found');
-        }
-        //supprimer la note
-        $entityManager->remove($note);
-        $entityManager->flush();
-        $this->addFlash('success', 'Grade deleted successfully.');
-
-        //rediriger vers la formation
-        return $this->redirectToRoute('formateurApprenant', ['apprenantId' => $apprenantId, 'formationId' => $formationId]);
-    }
-
-    //MODIFIER NOTE 
+    //NOTE_MODIFIER
     #[IsGranted("ROLE_FORMATEUR")]
     #[Route('/Formateur/Formation/{formationId}/Apprenant/{apprenantId}/ModifierNote/{noteId}', name: 'formateurModifierNote')]
-    public function FormateurModifierNote(EntityManagerInterface $entityManager, $noteId,$formationId, $apprenantId, Request $request): Response
+    public function FormateurModifierNote(EntityManagerInterface $entityManager, $noteId, $formationId, $apprenantId, Request $request): Response
     {
         //recupérer formation
         $formationRepo = $entityManager->getRepository(Formation::class);
@@ -183,10 +164,33 @@ class FormateurController extends AbstractController
         ]);
     }
 
-    //MODIFIER PROGRAMME
+    //NOTE_DELETE
+    #[IsGranted("ROLE_FORMATEUR")]
+    #[Route('/Formateur/formation/{formationId}/apprenant/{apprenantId}/SupprimerNote/{noteId}', name: 'formateurSupprimerNote')]
+    public function FormateurSupprimerNote(EntityManagerInterface $entityManager, $noteId, $formationId, $apprenantId): Response
+    {
+
+        //Recupérer noteID, 
+        $noteRepo = $entityManager->getRepository(Note::class);
+        $note = $noteRepo->find($noteId);
+        //Vérifier si la note existe
+        if (!$note) {
+            throw $this->createNotFoundException('Grade not found');
+        }
+        //supprimer la note
+        $entityManager->remove($note);
+        $entityManager->flush();
+        $this->addFlash('success', 'Grade deleted successfully.');
+
+        //rediriger vers la formation
+        return $this->redirectToRoute('formateurApprenant', ['apprenantId' => $apprenantId, 'formationId' => $formationId]);
+    }
+
+
+    //PROGRAMME MODIFIER 
     #[IsGranted("ROLE_FORMATEUR")]
     #[Route('/Formateur/{formationId}/matiere/{matiereId}/modifierProgramme', name: 'formateurModifierProgramme')]
-    public function FormateurModifierProgramme(EntityManagerInterface $entityManager, $matiereId, Request $request, $formationId ): Response
+    public function FormateurModifierProgramme(EntityManagerInterface $entityManager, $matiereId, Request $request, $formationId): Response
     {
 
         //Recupérer matiereID, 
@@ -223,4 +227,4 @@ class FormateurController extends AbstractController
 
         ]);
     }
-} 
+}

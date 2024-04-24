@@ -5,14 +5,16 @@
 
 {% block main %}
 	<a href="{{ path('adminHome') }}" class="btn btn-secondary btn-sm m-2">Retour a l'accueil</a>
-	<div class="container rounded d-flex flex-column justify-content-center gap-4">
-		<h1 class="rounded bg-dark text-light p-3 w-50 m-auto text-center">Ajouter une formation</h1>
-	<form action="{{ path('adminNewFormation') }}" method="post" class ="w-50 m-auto ">
-		{{ form_start(form) }}
-		{{ form_widget(form) }}
-		<input type="submit" value="Ajouter" class="btn btn-success">
-		{{ form_end(form) }}
-	</form>
-	</div>
+
+		<div class=" col-sm-9 col-lg-5 container rounded d-flex flex-column justify-content-center gap-4">
+			<h1 class="rounded bg-dark text-light p-3 m-auto text-center">Ajouter une formation</h1>
+		<form action="{{ path('adminNewFormation') }}" method="post" class ="w-100 m-auto ">
+			{{ form_start(form) }}
+			{{ form_widget(form) }}
+			<input type="submit" value="Ajouter" class="btn btn-success">
+			{{ form_end(form) }}
+		</form>
+		</div>
+
 
 {% endblock %}

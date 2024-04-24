@@ -34,7 +34,7 @@ class ApprenantController extends AbstractController
         ]);
     }
 
-    //PROGRAMME DE LA MATIERE
+    //LISTE DES MATIERES
     #[IsGranted("ROLE_APPRENANT")]
     #[Route('/Apprenant/matieres', name: 'apprenantMatieres')]
     public function ApprenantMatieres(): Response
@@ -51,7 +51,7 @@ class ApprenantController extends AbstractController
         ]);
     }
 
-    //PROGRAMME DE LA MATIERE
+    //MATIERE_DETAIL
     #[IsGranted("ROLE_APPRENANT")]
     #[Route('/Apprenant/matieres/{matiereId}', name: 'apprenantProgramme')]
     public function ApprenantProgramme($matiereId, EntityManagerInterface $entityManager): Response
@@ -68,7 +68,7 @@ class ApprenantController extends AbstractController
         ]);
     }
 
-    //NOTES DE L'APPRENANT
+    //NOTES LISTE
     #[IsGranted("ROLE_APPRENANT")]
     #[Route('/Apprenant/notes', name: 'apprenantNotes')]
     public function ApprenantNotes(EntityManagerInterface $entityManager): Response

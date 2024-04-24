@@ -6,34 +6,36 @@
 
 {% block main %}
 	<a href="{{ path('adminHome') }}" class="btn btn-secondary btn-sm m-2">Retour a l'accueil</a>
-	<div class="container rounded d-flex flex-column justify-content-center text-center gap-4">
-		<h1 class="rounded bg-dark text-light p-3 w-50 m-auto text-center">Liste des formations</h1>
-		<table class="table table-striped w-50 rounded m-auto">
-			<thead>
-				<tr>
-					<th>Nom</th>
-					<th>Matières</th>
-					<th></th>
-					<th></th>
-				</tr>
-			</thead>
-			<tbody class="table-group-divider">
-				{% for formation in formations %}
+
+		<div class="col-sm-9 col-lg-5 mx-auto  d-flex flex-column justify-content-center text-center gap-4">
+			<h1 class="rounded bg-dark text-light p-3 m-auto text-center">Liste des formations</h1>
+			<table class="table table-striped rounded m-auto">
+				<thead>
 					<tr>
-						<td>{{ formation.nom }}</td>
-						<td>
-							{% for matiere in formation.matieres %}
-								{{ matiere.nom }}
-							{% endfor %}
-						</td>
-						<td><a href="{{ path('adminModifierFormation', {'formationId': formation.id}) }}" class="btn btn-secondary">Modifier</a></td>
-						<td><a href="{{ path('adminSupprimerFormation', {'formationId': formation.id}) }}" class="btn btn-danger">Supprimer</a></td>
-		
+						<th>Nom</th>
+						<th>Matières</th>
+						<th></th>
+						<th></th>
 					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-	
-	</div>
+				</thead>
+				<tbody class="table-group-divider">
+					{% for formation in formations %}
+						<tr>
+							<td>{{ formation.nom }}</td>
+							<td>
+								{% for matiere in formation.matieres %}
+									{{ matiere.nom }}
+								{% endfor %}
+							</td>
+							<td><a href="{{ path('adminModifierFormation', {'formationId': formation.id}) }}" class="btn btn-secondary">Modifier</a></td>
+							<td><a href="{{ path('adminSupprimerFormation', {'formationId': formation.id}) }}" class="btn btn-danger">Supprimer</a></td>
+			
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		
+		</div>
+
 
 {% endblock %}
