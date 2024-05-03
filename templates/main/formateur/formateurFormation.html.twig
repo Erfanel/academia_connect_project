@@ -12,8 +12,8 @@
 			<a href="{{ path('formateurHome') }}" class="btn btn-light h-50">Retour à l'accueil</a>
 		</div>
 
-		<div class="row">
-			<div class="col-8">
+		<div class="d-flex flex-sm-column  flex-lg-row gap-3">
+			<div class="col-lg-8">
 				<h2 class="rounded text-center bg-warning p-3">Matières</h2>
 				<div class="row row-cols-2">
 					{% for matiere in matieres %}
@@ -28,9 +28,9 @@
 			</div>
 
 
-			<div class="col-4">
+			<div class="col-lg-4">
 				<h2 class="rounded  text-center bg-warning p-3">Apprenants</h2>
-				<div class="row row-cols-1 gap-3 bg-light p-3 rounded mx-1">
+				<div class="row row-cols-1 gap-3 bg-light p-3 rounded mx-1 col-8 col-lg-12 mx-auto">
 					{% for apprenant in apprenants %}
 
 						<a href="{{path('formateurApprenant', {'apprenantId': apprenant.id, 'formationId': formation.id})}}" class="col btn btn-dark rounded-pill">{{ apprenant.nom }}

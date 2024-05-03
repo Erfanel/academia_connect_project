@@ -10,33 +10,35 @@
 			<h2 class="rounded bg-dark text-light p-3">Liste des utilisateurs</h2>
 			<a href="{{ path('adminHome') }}" class="btn btn-light h-50">Retour a l'accueil</a>
 		</div>
-	
-	
-			<table class="table table-striped m-auto text-center">
-				<thead>
+
+
+		<table class="table table-striped m-auto text-center">
+			<thead>
+				<tr>
+					<th>Nom</th>
+					<th>Prenom</th>
+					<th>Email</th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody class="table-group-divider">
+				{% for utilisateur in utilisateurs %}
 					<tr>
-						<th>Nom</th>
-						<th>Prenom</th>
-						<th>Email</th>
-						<th></th>
-						<th></th>
+						<td>{{ utilisateur.nom }}</td>
+						<td>{{ utilisateur.prenom }}</td>
+						<td>{{ utilisateur.email }}</td>
+						<td>
+							<a href="{{ path('adminModifierUtilisateur', {'utilisateurId': utilisateur.id}) }}" class="btn btn-secondary ">Modifier</a>
+						</td>
+						<td>
+							<form action="{{ path('adminSupprimerUtilisateur', {'utilisateurId': utilisateur.id}) }}" method="post">
+								<input type="submit" class="btn btn-danger" value="Supprimer">
+							</form>
+						</td>
 					</tr>
-				</thead>
-				<tbody class="table-group-divider">
-					{% for utilisateur in utilisateurs %}
-						<tr>
-							<td>{{ utilisateur.nom }}</td>
-							<td>{{ utilisateur.prenom }}</td>
-							<td>{{ utilisateur.email }}</td>
-							<td>
-								<a href="{{ path('adminModifierUtilisateur', {'utilisateurId': utilisateur.id}) }}" class="btn btn-secondary disabled">Modifier (TODO)</a>
-							</td>
-							<td>
-								<a href="{{ path('adminSupprimerUtilisateur', {'utilisateurId': utilisateur.id}) }}" class="btn btn-danger disabled">Supprimer (TODO)</a>
-							</td>
-						</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		</div>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
 {% endblock %}

@@ -42,7 +42,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
 
 
-    #[ORM\OneToMany(targetEntity: Matiere::class, mappedBy: 'formateur')]
+    #[ORM\OneToMany(targetEntity: Matiere::class, mappedBy: 'formateur', cascade: ['persist', 'remove'])]
     private Collection $matiereEnseignee;
 
     #[ORM\OneToMany(targetEntity: Note::class, mappedBy: 'apprenant')]

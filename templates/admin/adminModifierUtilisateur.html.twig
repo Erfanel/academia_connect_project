@@ -7,11 +7,14 @@
 {% block main %}
 	<div class="d-flex flex-column gap-3">
 		<div class="d-flex justify-content-between">
-			<h1 class="rounded bg-dark text-light p-3">Modifier un utilisateur</h1>
-			<a href="{{ path('adminHome') }}" class="btn btn-light h-50">Retour a l'accueil admin</a>
+			<h2 class="rounded bg-dark text-light p-3">Modifier un utilisateur</h2>
+			<div class="d-flex gap-3">
+				<a href="{{ path('adminHome') }}" class="btn btn-light h-50">Retour a l'accueil admin</a>
+				<a href="{{ path('adminUtilisateurs') }}" class="btn btn-light h-50">Retour a la liste des utilisateurs</a>
+			</div>
 
 		</div>
-		<form action="{{ path('adminNewUtilisateur') }}" method="post" class=" bg-light p-3">
+		<form action="{{ path('adminModifierUtilisateur', {'utilisateurId': utilisateur.id}) }}" method="post" class=" bg-light p-3">
 			{{ form_start(form) }}
 			{{ form_widget(form) }}
 			<input type="submit" class="btn btn-success">

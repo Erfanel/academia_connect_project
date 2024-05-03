@@ -93,7 +93,7 @@ class AdminController extends AbstractController
         $form = $this->createForm(UtilisateurAdminType::class, $utilisateur);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            // L'entité utilisateur est automatiquement mise à jour avec les données soumises
+
             $entityManager->flush();
 
             return $this->redirectToRoute('adminUtilisateurs');
@@ -103,6 +103,7 @@ class AdminController extends AbstractController
         return $this->render('admin/adminModifierUtilisateur.html.twig', [
 
             'form' => $form->createView(),
+            'utilisateur' => $utilisateur
 
         ]);
     }
@@ -110,7 +111,7 @@ class AdminController extends AbstractController
     //USER_SUPPRIMER (TODO)
     #[IsGranted("ROLE_ADMIN")]
     #[Route('/admin/utilisateurs/supprimer/{utilisateurId}', name: 'adminSupprimerUtilisateur')]
-    public function AdminSupprimerUtilisateur(EntityManagerInterface $entityManager, $utilisateurId, Request $request): Response
+    public function AdminSupprimerUtilisateur(EntityManagerInterface $entityManager, $utilisateurId): Response
     {
         //Recupérer utilisateur , 
         $utilisateurRepo = $entityManager->getRepository(Utilisateur::class);
