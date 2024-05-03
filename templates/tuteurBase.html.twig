@@ -18,9 +18,6 @@
 						<li class="nav-item">
 							<a class="nav-link" href="{{ path('tuteurHome') }}">Mes apprenants</a>
 						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="{{ path('apprenantMatieres') }}">Mes matieres</a>
-						</li>
 					</ul>
 					<a href="{{ path('app_logout') }}"><button class="btn btn-primary">Se deconnecter</button></a>
 
@@ -29,6 +26,8 @@
 		</nav>
 	</header>
 
-	{% block main %}{% endblock %}
+	<main class="col col-lg-9 p-5 mx-auto">
+		{% block main %}{% endblock %}
+	</main>
 
 {% endblock %}

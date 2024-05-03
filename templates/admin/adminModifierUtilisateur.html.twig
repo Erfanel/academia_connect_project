@@ -1,17 +1,22 @@
-{% extends 'base.html.twig' %}
+{% extends 'adminBase.html.twig' %}
 
 {% block title %}
-Modifier l'utilisateur
+	Modifier l'utilisateur
 {% endblock %}
 
-{% block body %}
-	<a href="{{ path('adminHome') }}">Retour a l'accueil admin</a>
-	<h1>Modifier un utilisateur</h1>
-	<form action="{{ path('adminNewUtilisateur') }}" method="post">
-		{{ form_start(form) }}
-		{{ form_widget(form) }}
-		<input type="submit">
-		{{ form_end(form) }}
-	</form>
+{% block main %}
+	<div class="d-flex flex-column gap-3">
+		<div class="d-flex justify-content-between">
+			<h1 class="rounded bg-dark text-light p-3">Modifier un utilisateur</h1>
+			<a href="{{ path('adminHome') }}" class="btn btn-light h-50">Retour a l'accueil admin</a>
+
+		</div>
+		<form action="{{ path('adminNewUtilisateur') }}" method="post" class=" bg-light p-3">
+			{{ form_start(form) }}
+			{{ form_widget(form) }}
+			<input type="submit" class="btn btn-success">
+			{{ form_end(form) }}
+		</form>
+	</div>
 
 {% endblock %}

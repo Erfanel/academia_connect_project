@@ -3,14 +3,17 @@
 {% block title %}{% endblock %}
 
 {% block main %}
-	<a href="{{path('apprenantHome')}}" class="btn btn-secondary btn-sm m-2">
-		Retour à l'accueil</a>
-	<div class="container-l text-center d-flex flex-column gap-3 ">
-		<h1 class="container rounded bg-dark text-light w-50 p-3">Les notes de
-			{{ user.prenom }}
-			{{ user.nom }}
-		</h1>
-		<table class="table table-striped w-50 rounded m-auto">
+	
+	<div class="d-flex flex-column gap-3"  >
+		<div class="d-flex justify-content-between">
+			<h2 class="rounded bg-dark text-light p-3">Les notes de
+				{{ user.prenom }}
+				{{ user.nom }}
+			</h2>
+			<a href="{{path('apprenantHome')}}" class="btn btn-light h-50">
+			Retour à l'accueil</a>
+		</div>
+		<table class="table table-striped rounded shadow-lg">
 			<thead>
 				<tr>
 					<th>Matière</th>

@@ -4,29 +4,36 @@
 {% endblock %}
 
 {% block main %}
-<a href="{{ path('tuteurApprenant', {'apprenantId': apprenant.id})}}" class="btn btn-secondary btn-sm m-2">Retour au profil de {{ apprenant.prenom }} {{ apprenant.nom }}</a>
-	<div class="container rounded d-flex flex-column justify-content-center text-center gap-3">
-		<h1 class="rounded bg-dark text-light p-3 w-50 m-auto ">
-				Notes de {{ apprenant.prenom }} {{ apprenant.nom }}</h1>
-	
-		<table class="table table-striped w-50 rounded m-auto">
-		<thead>
-			<tr>
-				<th scope="col">Matière</th>
-				<th scope="col">Evaluation</th>
-				<th scope="col">Note</th>
-			</tr>
-		</thead>
-		<tbody class="table-group-divider">
-			{% for note in notes %}
+
+	<div class="d-flex flex-column gap-3">
+		<div class="d-flex justify-content-between">
+			<h2 class="rounded bg-dark text-light p-3">
+				Notes de
+				{{ apprenant.prenom }}
+				{{ apprenant.nom }}</h2>
+			<a href="{{ path('tuteurApprenant', {'apprenantId': apprenant.id})}}" class="btn btn-light h-50">Retour au profil de
+				{{ apprenant.prenom }}
+				{{ apprenant.nom }}</a>
+		</div>
+
+		<table class="table table-striped">
+			<thead>
 				<tr>
-					<td>{{ note.matiere.nom }}</td>
-					<td>{{ note.evaluation }}</td>
-					<td>{{ note.note }}</td>
+					<th scope="col">Matière</th>
+					<th scope="col">Evaluation</th>
+					<th scope="col">Note</th>
 				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-	
+			</thead>
+			<tbody class="table-group-divider">
+				{% for note in notes %}
+					<tr>
+						<td>{{ note.matiere.nom }}</td>
+						<td>{{ note.evaluation }}</td>
+						<td>{{ note.note }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
 	</div>
 {% endblock %}

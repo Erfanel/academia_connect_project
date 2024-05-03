@@ -3,21 +3,22 @@
 {% block title %}Formations Formateur
 {% endblock %}
 {% block main %}
-	<a href="{{ path('formateurApprenant', {'apprenantId': apprenant.id, 'formationId': apprenant.formationSuivie.id})}}" class="btn btn-secondary btn-sm m-2">Retour au profil de
-		{{ apprenant.prenom }}
-		{{ apprenant.nom }}</a>
 
-	<div class="container rounded w-50 d-flex flex-column justify-content-center text-center gap-3">
-	<div class="rounded bg-dark text-light p-2 ">
-			<h1>Modifier une note
-			</h1>
-			<p>
-				{{ apprenant.prenom }} {{ apprenant.nom }} pour l'évaluation
-			{{ note.matiere.nom }}
-			</p>
+
+	<div class=" d-flex flex-column gap-3">
+		<div class="d-flex justify-content-between">
+			<h2 class="rounded bg-dark text-light p-2 ">
+				{{ apprenant.formationSuivie.nom }} 
+				/ {{ apprenant.prenom }} {{ apprenant.nom }}
+				/ {{ note.matiere.nom }}
+				/ Modifier
+			</h2>
+			<a href="{{ path('formateurApprenant', {'apprenantId': apprenant.id, 'formationId': apprenant.formationSuivie.id})}}" class="btn btn-light h-50">Retour au profil de
+				{{ apprenant.prenom }}
+				{{ apprenant.nom }}</a>
 		</div>
 
-		<form action="{{ path('formateurModifierNote', {'noteId': note.id, 'formationId': apprenant.formationSuivie.id, 'apprenantId': apprenant.id}) }}" method="post" class="w-50 m-auto">
+		<form action="{{ path('formateurModifierNote', {'noteId': note.id, 'formationId': apprenant.formationSuivie.id, 'apprenantId': apprenant.id}) }}" method="post" class="m-auto w-75 bg-light p-3">
 			{{ form_start(form) }}
 			{{ form_errors(form) }}
 			{{ form_row(form.evaluation) }}
@@ -31,5 +32,5 @@
 			{{ form_end(form) }}
 		</form>
 	</div>
-	
+
 {% endblock %}

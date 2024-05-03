@@ -4,20 +4,22 @@
 {% endblock %}
 
 {% block main %}
-	<a href="{{ path('formateurHome') }}" class="btn btn-secondary btn-sm m-2">Retour à l'accueil</a>
+	
 
-	<div class="m-auto text-center m-auto ">
-		<h1 class="rounded bg-dark text-light p-3 w-50 mx-auto ">{{formation.nom}}</h1>
+	<div>
+		<div class="d-flex justify-content-between">
+			<h2 class="rounded bg-dark text-light p-3">{{ formation.nom }}</h2>
+			<a href="{{ path('formateurHome') }}" class="btn btn-light h-50">Retour à l'accueil</a>
+		</div>
 
-		<div class="row m-auto container mt-3">
-			<div class="col">
-				<h2 class="rounded  text-center bg-warning p-3">Matières</h2>
-				<div class="row row-cols-3">
+		<div class="row">
+			<div class="col-8">
+				<h2 class="rounded text-center bg-warning p-3">Matières</h2>
+				<div class="row row-cols-2">
 					{% for matiere in matieres %}
-
-						<div class="card p-5">
+						<div class="bg-light p-3 text-center mx-3">
 							<h3>{{ matiere.nom }}</h3>
-							<a href="{{path('formateurMatiere', {'matiereId': matiere.id, 'formationId': formation.id})}}" class="btn btn-warning mt-3">Voir le programme
+							<a href="{{path('formateurMatiere', {'matiereId': matiere.id, 'formationId': formation.id})}}" class="btn btn-warning ">Voir le programme
 							</a>
 						</div>
 
@@ -26,9 +28,9 @@
 			</div>
 
 
-			<div class="col-3">
+			<div class="col-4">
 				<h2 class="rounded  text-center bg-warning p-3">Apprenants</h2>
-				<div class="row row-cols-1 gap-3 bg-light p-3 rounded">
+				<div class="row row-cols-1 gap-3 bg-light p-3 rounded mx-1">
 					{% for apprenant in apprenants %}
 
 						<a href="{{path('formateurApprenant', {'apprenantId': apprenant.id, 'formationId': formation.id})}}" class="col btn btn-dark rounded-pill">{{ apprenant.nom }}

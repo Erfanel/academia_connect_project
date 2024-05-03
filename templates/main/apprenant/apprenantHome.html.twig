@@ -6,31 +6,31 @@
 {% block main %}
 
 
-	<div class="container rounded w-50 d-flex flex-column justify-content-center text-center gap-3">
-		<div class=" rounded bg-dark text-light mt-5 p-3 ">
-			<h1>Bonjour
-				{{ user.prenom }}
-				{{ user.nom }}</h1>
+	<div class=" d-flex flex-column gap-4">
+		<h1 class="rounded bg-dark text-light mt-5 p-3 text-center">Bonjour
+			{{ user.prenom }}
+			{{ user.nom }}</h1>
 
-		</div>
 
-		<div>
-			<h2 class=" rounded  text-center bg-warning p-3">Mes notes</h2>
-			<a class="btn btn-dark btn-lg w-25 m-auto" href="{{path('apprenantNotes')}}">
+		<div class="d-flex flex-column">
+			<h2 class="badge text-bg-warning">Mes notes</h2>
+			<a href="{{path('apprenantNotes')}}" class="btn btn-lg btn-light">
 				Voir mes notes
 			</a>
 		</div>
 
-		<div>
-			<h2 class=" rounded bg-warning p-3 ">Mes matières pour la formation
+
+		<div class="d-flex flex-column">
+			<h2 class="badge text-bg-warning">Mes matières pour la formation
 				{{formation.nom}}</h2>
-			<div class="list-group">
+			<div class="list-group text-center">
 				{% for matiere in matieres %}
 					<a href="{{path('apprenantProgramme', {'matiereId': matiere.id})}}" class="list-group-item list-group-item-action">{{matiere.nom}}</a>
 
 				{% endfor %}
 			</div>
-			
 		</div>
+
 	</div>
+
 {% endblock %}

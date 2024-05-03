@@ -4,16 +4,19 @@
 {% endblock %}
 
 {% block main %}
-	<a href="{{ path('adminHome') }}" class="btn btn-secondary btn-sm m-2">Retour a l'accueil</a>
-	
-		<div class="col-sm-9 col-lg-5 container rounded d-flex flex-column justify-content-center gap-4">
-		<h1 class="rounded bg-dark text-light p-3 m-auto text-center">Ajouter une matière</h1>
-		<form action="{{ path('adminNewMatiere') }}" method="post" class =" m-auto  w-100">
+	<div class="d-flex flex-column gap-3">
+		<div class="d-flex justify-content-between">
+			<h2 class="rounded bg-dark text-light p-3">Ajouter une matière</h2>
+			<a href="{{ path('adminHome') }}" class="btn btn-light h-50">Retour a l'accueil</a>
+		</div>
+
+		<form action="{{ path('adminNewMatiere') }}" method="post" class="bg-light p-3">
 			{{ form_start(form) }}
 			{{ form_widget(form) }}
 			<input type="submit" value="Ajouter" class="btn btn-success">
 			{{ form_end(form) }}
 		</form>
-		</div>
+
+	</div>
 
 {% endblock %}

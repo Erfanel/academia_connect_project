@@ -1,19 +1,26 @@
-{% extends 'base.html.twig' %}
+{% extends 'adminBase.html.twig' %}
 
 {% block title %}Modifier la note
 {% endblock %}
 
-{% block body %}
-	<a href="{{ path('adminNotes') }}">Retour a la page des notes</a>
-	<h1>Modifier la note </h1>
-	<form action="{{ path('adminModifierNote', {'noteId': note.id}) }}" method="post">
-		{{ form_start(form) }}
-		{{ form_errors(form) }}
-		{{form_widget(form)}}
-		<input type="submit">
-		{{ form_end(form) }}
-	</form>
-	<a href="{{ path('adminNotes') }}"> Retour a la page des notes</a><br>
-	<a href="{{ path('adminHome') }}">Retour à l'accueil admin</a>
+{% block main %}
+	<div class="d-flex flex-column gap-4">
+		<div class="d-flex justify-content-between" >
+			<h2 class="rounded bg-dark text-light p-3"> {{note.apprenant.formationSuivie.nom}} / {{note.apprenant.prenom}} {{note.apprenant.nom}} / {{note.matiere.nom}} / Modifier</h2>
+			<div class="d-flex gap-3">
+				<a href="{{ path('adminNotes') }}" class="btn btn-light h-50">Retour a la page des notes</a>
+				<a href="{{ path('adminHome') }}" class="btn btn-light h-50">Retour à l'accueil admin</a>
+			</div>
+			
+		</div>
+		<form action="{{ path('adminModifierNote', {'noteId': note.id}) }}" method="post" class=" bg-light p-3">
+			{{ form_start(form) }}
+			{{ form_errors(form) }}
+			{{form_widget(form)}}
+			<input type="submit" class="btn btn-success">
+			{{ form_end(form) }}
+		</form>
+		
+	</div>
 
 {% endblock %}
