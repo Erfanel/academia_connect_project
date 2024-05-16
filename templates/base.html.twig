@@ -6,7 +6,8 @@
 			{% block title %}!
 			{% endblock %}
 		</title>
-		<link rel="icon" type="image/x-icon" href="{{ asset('images/logo_2.png') }}">
+		<link
+		rel="icon" type="image/x-icon" href="{{ asset('images/logo_2.png') }}">
 
 
 		{# css #}
@@ -28,10 +29,16 @@
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
 	</head>
-	<body class="bg-warning-subtle text-dark">
-		<main  style="
-">
-			{% block body %}{% endblock %}
-		</main>
-	</body>
-</html>
+	<body class="bg-warning-subtle text-dark" >
+		<main class="bg-warning-subtle text-dark"> {% block body %}{% endblock %}
+			</main>
+			<footer class="d-flex px-5 py-2 justify-content-between bg-dark">
+				
+					<img src="{{ asset('images/Logo_2_Blanc.png') }}" alt="logo blanc" width="40" height="40">
+					<p class="text-light">Tous droits réservés - 2024</p>
+					<a href="mailto:email@example.com">Contacts & maintenance</a>
+	
+		
+			</footer>
+		</body>
+	</html>

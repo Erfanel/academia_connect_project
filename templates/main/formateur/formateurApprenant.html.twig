@@ -15,32 +15,35 @@
         </div>
         
         <a href="{{ path('formateurCreerNote', {'apprenantId': apprenant.id, 'formationId': apprenant.formationSuivie.id})}}" class="btn btn-success w-50 m-auto">Ajouter une note</a>
-        <table class="table">
-            <tr>
-                <th>Matière</th>
-                <th>Evaluation</th>
-                <th>Note</th>
-                <th></th>
-                <th></th>
-            </tr>
-            {% for note in apprenant.notes %}
-            <tr>
-                <td>{{ note.matiere.nom }}</td>
-                <td>{{ note.evaluation }}</td>
-                <td>{{ note.note }}</td>
-                <td class="text-center"> 
-                    <a href="{{ path('formateurModifierNote', {'noteId': note.id, 'formationId': apprenant.formationSuivie.id, 'apprenantId': apprenant.id}) }}" class="btn btn-secondary">Modifier</a>
-                </td>
-                <td class="text-center"> 
-                    <form action="{{ path('formateurSupprimerNote', {'noteId': note.id, 'formationId': apprenant.formationSuivie.id, 'apprenantId': apprenant.id}) }}" method="post">
-                    <input type="submit" value="Supprimer" class="btn btn-danger"></form>
-                </td>
-    
-                
-                
-            </tr>
-            {% endfor %}
-        </table>
+
+       <div class="table-responsive">
+            <table class="table">
+                <tr>
+                    <th>Matière</th>
+                    <th>Evaluation</th>
+                    <th>Note</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                {% for note in apprenant.notes %}
+                <tr>
+                    <td>{{ note.matiere.nom }}</td>
+                    <td>{{ note.evaluation }}</td>
+                    <td>{{ note.note }}</td>
+                    <td class="text-center"> 
+                        <a href="{{ path('formateurModifierNote', {'noteId': note.id, 'formationId': apprenant.formationSuivie.id, 'apprenantId': apprenant.id}) }}" class="btn btn-secondary">Modifier</a>
+                    </td>
+                    <td class="text-center"> 
+                        <form action="{{ path('formateurSupprimerNote', {'noteId': note.id, 'formationId': apprenant.formationSuivie.id, 'apprenantId': apprenant.id}) }}" method="post">
+                        <input type="submit" value="Supprimer" class="btn btn-danger"></form>
+                    </td>
+        
+                    
+                    
+                </tr>
+                {% endfor %}
+            </table>
+       </div>
     </div>
 
 {% endblock %}
