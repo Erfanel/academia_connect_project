@@ -26,7 +26,7 @@ class MainController extends AbstractController
     #[Route('/homeAll', name: 'homeAll')]
     public function homeAll(): Response
     {
-        switch ($this->getUser()->getRoles()[0]) {
+        switch ($this->getUser()->getRoles()[0])ch {
             case 'ROLE_FORMATEUR':
                 return $this->redirectToRoute('formateurHome');
             case 'ROLE_TUTEUR':
